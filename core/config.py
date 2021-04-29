@@ -16,6 +16,7 @@ class Config:
 
 @dataclass
 class LocalConfig(Config):
+    DATABASE_URL = environ.get("LOCAL_DB_URL", "mysql+pymysql://user:1234@localhost:3306/wycmdb")
     DATABASE_NAME = environ.get("LOCAL_DB_NAME", "test")
     DATABASE_HOST = environ.get("LOCAL_DB_HOST", "localhost")
     DATABASE_PASSWORD = environ.get("LOCAL_DB_PASSWORD", "")
@@ -29,6 +30,7 @@ class LocalConfig(Config):
 
 @dataclass
 class ProdConfig(Config):
+    DATABASE_URL = environ.get("PROD_DB_URL", "mysql+pymysql://user:1234@localhost:3306/wycmdb")
     DATABASE_NAME = environ.get("PROD_DB_NAME", "test")
     DATABASE_HOST = environ.get("PROD_DB_HOST", "localhost")
     DATABASE_PASSWORD = environ.get("PROD_DB_PASSWORD", "")
@@ -41,6 +43,7 @@ class ProdConfig(Config):
 
 @dataclass
 class TestConfig(Config):
+    DATABASE_URL = environ.get("TEST_DB_URL", "mysql+pymysql://user:1234@localhost:3306/wycmdb")
     TRUSTED_HOSTS = ["*"]
     ALLOW_SITE = ["*"]
     TEST_MODE: bool = True
