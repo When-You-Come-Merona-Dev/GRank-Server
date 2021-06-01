@@ -4,10 +4,20 @@ from os import environ
 
 @dataclass
 class Config:
-    API_ENV: str = environ.get("API_ENV", "local")
+    API_ENV: str = environ.get("API_ENV", "develop")
+
+    DATABASE_USER: str = environ.get("POSTGRES_USER", "root")
+    DATABASE_PASSWORD: str = environ.get("POSTGRES_PASSWORD", "password")
+    DATABASE_HOST: str = environ.get("POSTGRES_HOST", "db")
+    DATABASE_PORT: int = int(environ.get("POSTGRES_PORT", 5432))
+    DATABASE_NAME: str = environ.get("POSTGRES_NAME", "wycm_dev_db")
+    DATABASE_URL: str = "postgresql://{0}:{1}@{2}:{3}/{4}".format(
+        DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_PORT, DATABASE_NAME
+    )
+
     DEBUG: bool = False
     TEST_MODE: bool = False
-    PROJ_RELOAD = True
+    PROJ_RELOAD: bool = True
     JWT_SECRET_KEY: str = environ.get("JWT_SECRET_KEY", "thisissecretkey!@#$")
     JWT_ALGORITHM: str = environ.get("JWT_ALGORITHM", "HS256")
     WEB_SERVER_HOST: str = environ.get("WEB_SERVER_HOST", "0.0.0.0")
@@ -15,13 +25,7 @@ class Config:
 
 
 @dataclass
-class LocalConfig(Config):
-    DATABASE_URL = environ.get("LOCAL_DB_URL", "mysql+pymysql://user:1234@localhost:3306/wycmdb")
-    DATABASE_NAME = environ.get("LOCAL_DB_NAME", "test")
-    DATABASE_HOST = environ.get("LOCAL_DB_HOST", "localhost")
-    DATABASE_PASSWORD = environ.get("LOCAL_DB_PASSWORD", "")
-    DATABASE_USER = environ.get("LOCAL_DB_USER", "root")
-    DATABASE_PORT = int(environ.get("LOCAL_DB_PORT", 3306))
+class DevelopConfig(Config):
     PROJ_RELOAD = True
     TRUSTED_HOSTS = ["*"]
     ALLOW_SITE = ["*"]
@@ -29,13 +33,7 @@ class LocalConfig(Config):
 
 
 @dataclass
-class ProdConfig(Config):
-    DATABASE_URL = environ.get("PROD_DB_URL", "mysql+pymysql://user:1234@localhost:3306/wycmdb")
-    DATABASE_NAME = environ.get("PROD_DB_NAME", "test")
-    DATABASE_HOST = environ.get("PROD_DB_HOST", "localhost")
-    DATABASE_PASSWORD = environ.get("PROD_DB_PASSWORD", "")
-    DATABASE_USER = environ.get("PROD_DB_USER", "root")
-    DATABASE_PORT = int(environ.get("PROD_DB_PORT", 3306))
+class ProductConfig(Config):
     PROJ_RELOAD = False
     TRUSTED_HOSTS = ["*"]
     ALLOW_SITE = ["*"]
@@ -43,15 +41,14 @@ class ProdConfig(Config):
 
 @dataclass
 class TestConfig(Config):
-    DATABASE_URL = environ.get("TEST_DB_URL", "mysql+pymysql://user:1234@localhost:3306/wycmdb")
     TRUSTED_HOSTS = ["*"]
     ALLOW_SITE = ["*"]
     TEST_MODE: bool = True
 
 
 def load_config():
-    config = dict(prod=ProdConfig, local=LocalConfig, test=TestConfig)
-    return config[environ.get("API_ENV", "local")]()
+    config = dict(product=ProductConfig, develop=DevelopConfig, test=TestConfig)
+    return config[environ.get("API_ENV", "develop")]()
 
 
 config = load_config()
