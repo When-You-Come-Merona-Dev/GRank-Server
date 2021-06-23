@@ -1,10 +1,19 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from core.config import config
+from sqlalchemy.ext.declarative import declarative_base
 
 
 engine = create_engine(config.DATABASE_URL)
 
-Session = scoped_session(sessionmaker(bind=engine))
+LocalSession = scoped_session(sessionmaker(bind=engine))
 
-session = Session()
+BaseORM = declarative_base()
+
+
+def get_db():
+    db = LocalSession()
+    try:
+        yield db
+    finally:
+        db.close()

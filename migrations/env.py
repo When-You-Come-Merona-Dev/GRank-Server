@@ -19,10 +19,10 @@ config = context.config
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
-from app.models.base import Base
-from app.models.users import *
+from core.db.session import BaseORM
+from src.github_user.adapters.orm import *
 
-target_metadata = Base.metadata
+target_metadata = BaseORM.metadata
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 # other values from the config, defined by the needs of env.py,
