@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from core.config import config
+from src.config import config
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -11,9 +11,9 @@ LocalSession = scoped_session(sessionmaker(bind=engine))
 BaseORM = declarative_base()
 
 
-def get_db():
-    db = LocalSession()
+def get_session():
+    session = LocalSession()
     try:
-        yield db
+        yield session
     finally:
-        db.close()
+        session.close()
