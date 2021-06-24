@@ -8,6 +8,8 @@ class GithubUser:
         self.commit_count = 0
         self.is_approved = False
         self._groups = set()
+        self.created_at = None
+        self.updated_at = None
 
     @property
     def groups(self):
@@ -31,10 +33,13 @@ class GithubUser:
 
     def to_dict(self):
         return {
+            "id": self.id,
             "username": self.username,
             "commit_count": self.commit_count,
             "is_approved": self.is_approved,
             "groups": self.groups,
+            "created_at": self.created_at.strftime("%Y-%m-%dT%H:%M:%S"),
+            "updated_at": self.updated_at.strftime("%Y-%m-%dT%H:%M:%S"),
         }
 
     def __eq__(self, other):

@@ -7,3 +7,5 @@ class GithubUserDTO(BaseModel):
     commit_count: int
     is_approved: bool
     groups: set
+    created_at: str
+    updated_at: str
