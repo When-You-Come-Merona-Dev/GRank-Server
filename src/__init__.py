@@ -1,6 +1,7 @@
 from fastapi import FastAPI
-from core.config import config
+from src.config import config
 from fastapi.middleware.cors import CORSMiddleware
+from src.adapters.orm import start_mappers
 
 
 def init_middleware(app: FastAPI):
@@ -17,6 +18,10 @@ def init_middleware(app: FastAPI):
     )
 
 
+def init_orm():
+    start_mappers()
+
+
 def init_router(app: FastAPI):
     from src.entrypoints.api import router as github_user_router
 
@@ -27,6 +32,5 @@ def create_app() -> FastAPI:
     app = FastAPI(docs_url=None if config.API_ENV == "production" else "/docs")
     init_router(app)
     init_middleware(app)
-
-
-app = create_app()
+    init_orm()
+    return app
