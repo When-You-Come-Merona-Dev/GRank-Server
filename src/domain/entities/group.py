@@ -1,6 +1,6 @@
 class Group:
-    def __init__(self, id: int, name: str, category: str):
-        self.id = id
+    def __init__(self, name: str, category: str):
+        self.id = None
         self.name = name
         self.category = category
         self.members = set()
