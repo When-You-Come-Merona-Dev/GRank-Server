@@ -6,7 +6,8 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from core.config import load_config
+from src.config import load_config
+from src.adapters.db.session import metadata
 
 CONFIG = load_config()
 
@@ -19,10 +20,10 @@ config = context.config
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
-from core.db.session import BaseORM
-from src.github_user.adapters.orm import *
+from src.adapters.orm import start_mappers
 
-target_metadata = BaseORM.metadata
+start_mappers()
+target_metadata = metadata
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 # other values from the config, defined by the needs of env.py,
