@@ -7,10 +7,10 @@ class AbstractGithubUserRepository(abc.ABC):
     def create_github_user(self, github_user: GithubUser) -> GithubUser:
         pass
 
-    @abc.absctractmethod
+    @abc.abstractmethod
     def renew_one_commit_count(self):
         pass
 
-    @abc.absctractmethod
+    @abc.abstractmethod
     def renew_all_commit_count(self):
         pass
