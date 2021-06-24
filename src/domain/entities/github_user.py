@@ -2,10 +2,10 @@ from src.domain.entities.group import Group
 
 
 class GithubUser:
-    def __init__(self, username: str, commit_count: int):
+    def __init__(self, username: str):
         self.id = None
         self.username = username
-        self.commit_count = commit_count
+        self.commit_count = 0
         self.is_approved = False
         self._groups = set()
 
@@ -25,9 +25,6 @@ class GithubUser:
 
     def change_username(self, new_username: str):
         self.username = new_username
-
-    def change_major_club(self, new_major_club: str):
-        self.majot_club = new_major_club
 
     def approve(self):
         self.is_approved = True
