@@ -17,7 +17,9 @@ class GithubUserAddUseCase:
         if commit_count == None:
             raise HTTPException(status_code=404, detail="not exists github user")
 
-        github_user = GithubUser(username=input_dto.username, commit_count=commit_count)
+        github_user = GithubUser(username=input_dto.username)
+        github_user.renew_commit_count(commit_count)
+
         self.repo.create_github_user(github_user)
 
         output_dto = GithubUserDTO(
