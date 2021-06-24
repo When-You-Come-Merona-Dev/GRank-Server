@@ -12,6 +12,12 @@ class GithubUserAddUseCase:
         self.crawler = crawler
 
     def execute(self, input_dto: AddGithubUserDTO) -> GithubUserDTO:
+
+        exists_user = self.repo.get_github_user_by_username(input_dto.username)
+
+        if exists_user:
+            raise HTTPException(status_code=400, detail="already exists github username")
+
         commit_count = self.crawler.get_commit_count_from_username(input_dto.username)
 
         if commit_count == None:
@@ -22,11 +28,5 @@ class GithubUserAddUseCase:
 
         self.repo.create_github_user(github_user)
 
-        output_dto = GithubUserDTO(
-            id=github_user.id,
-            username=github_user.username,
-            commit_count=github_user.commit_count,
-            is_approved=github_user.is_approved,
-            groups=github_user.groups,
-        )
+        output_dto = GithubUserDTO(**github_user.to_dict())
         return output_dto
