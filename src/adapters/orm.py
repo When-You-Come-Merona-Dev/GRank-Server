@@ -1,11 +1,18 @@
 from datetime import datetime
 from sqlalchemy import Column, String, Integer, Boolean, DateTime, Table, MetaData
-from sqlalchemy.orm import mapper, relationship
+from sqlalchemy.orm import mapper, relationship, clear_mappers
 from sqlalchemy.sql.schema import ForeignKey
 from src.adapters.db.session import metadata
 from src.domain.entities.github_user import GithubUser
 from src.domain.entities.group import Group
 
+
+github_user_group = Table(
+    "github_user_group",
+    metadata,
+    Column("github_user_id", Integer, ForeignKey("github_user.id"), primary_key=True),
+    Column("group_id", Integer, ForeignKey("group.id"), primary_key=True),
+)
 
 github_user = Table(
     "github_user",
@@ -26,20 +33,22 @@ group = Table(
     Column("category", String(length=256), nullable=False),
 )
 
-github_user_group = Table(
-    "github_user_group",
-    metadata,
-    Column("github_user_id", Integer, ForeignKey("github_user.id"), primary_key=True),
-    Column("group_id", Integer, ForeignKey("group.id"), primary_key=True),
-)
-
 
 def start_mappers():
+    clear_mappers()
+    mapper(
+        Group,
+        group,
+        properties={
+            "members": relationship(
+                GithubUser, secondary=github_user_group, back_populates="groups"
+            )
+        },
+    )
     mapper(
         GithubUser,
         github_user,
         properties={
-            "groups": relationship("group", secondary=github_user_group, back_populates="members")
+            "groups": relationship(Group, secondary=github_user_group, back_populates="members")
         },
     )
-    mapper(Group, group)
