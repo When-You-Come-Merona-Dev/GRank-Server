@@ -1,10 +1,15 @@
 import abc
+from typing import Union
 from src.domain.entities.github_user import GithubUser
 
 
 class AbstractGithubUserRepository(abc.ABC):
     @abc.abstractmethod
     def create_github_user(self, github_user: GithubUser) -> GithubUser:
+        pass
+
+    @abc.abstractmethod
+    def get_github_user_by_username(self, username: str) -> Union[GithubUser, None]:
         pass
 
     @abc.abstractmethod
