@@ -2,12 +2,16 @@ from src.domain.entities.group import Group
 
 
 class GithubUser:
-    def __init__(self, id: int, username: str, commit_count: int):
-        self.id = id
+    def __init__(self, username: str, commit_count: int):
+        self.id = None
         self.username = username
         self.commit_count = commit_count
         self.is_approved = False
         self._groups = set()
+
+    @property
+    def groups(self):
+        return self._groups
 
     def join_group(self, group: Group):
         self._groups.add(group)
@@ -27,6 +31,14 @@ class GithubUser:
 
     def approve(self):
         self.is_approved = True
+
+    def to_dict(self):
+        return {
+            "username": self.username,
+            "commit_count": self.commit_count,
+            "is_approved": self.is_approved,
+            "groups": self.groups,
+        }
 
     def __eq__(self, other):
         if not isinstance(other, GithubUser):
