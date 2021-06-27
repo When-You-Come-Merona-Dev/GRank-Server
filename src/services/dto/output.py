@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 
 class GithubUserDTO(BaseModel):
@@ -9,3 +10,7 @@ class GithubUserDTO(BaseModel):
     groups: set
     created_at: str
     updated_at: str
+
+
+class GithubUserListDTO(BaseModel):
+    github_users: List[GithubUserDTO]
