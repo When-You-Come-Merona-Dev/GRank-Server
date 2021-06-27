@@ -1,11 +1,11 @@
 import abc
-from typing import Union
+from typing import Union, List
 from src.domain.entities.github_user import GithubUser
 
 
 class AbstractGithubUserRepository(abc.ABC):
     @abc.abstractmethod
-    def create_github_user(self, github_user: GithubUser) -> GithubUser:
+    def create_github_user(self, github_user: GithubUser) -> None:
         pass
 
     @abc.abstractmethod
@@ -13,9 +13,11 @@ class AbstractGithubUserRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def renew_one_commit_count(self):
+    def list_github_user(
+        self, filters: dict, page: int, per_page: int, order_by_field: str
+    ) -> List[GithubUser]:
         pass
 
     @abc.abstractmethod
-    def renew_all_commit_count(self):
+    def renew_commit_count(self, commit_count) -> None:
         pass
