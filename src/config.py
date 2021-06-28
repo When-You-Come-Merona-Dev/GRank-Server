@@ -23,6 +23,8 @@ class Config:
     WEB_SERVER_HOST: str = environ.get("WEB_SERVER_HOST", "0.0.0.0")
     WEB_SERVER_PORT: int = int(environ.get("WEB_SERVER_PORT", 3052))
 
+    PAGINATION_PER_PAGE: int = int(environ.get("PAGINATION_PER_PAGE", 5))
+
 
 @dataclass
 class DevelopConfig(Config):
@@ -51,4 +53,4 @@ def load_config():
     return config[environ.get("API_ENV", "develop")]()
 
 
-config = load_config()
+CONFIG = load_config()
