@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 # Request
@@ -6,10 +7,10 @@ class GithubUserCreateRequestDto(BaseModel):
 
 
 class GithubUserListRequestDto(BaseModel):
-    filters: dict
-    page: int
-    per_page: int
-    order_by: str
+    filters: Optional[dict]
+    page: Optional[int]
+    per_page: Optional[int]
+    order_by: Optional[str]
 
 
 # Response
