@@ -5,10 +5,14 @@ from src.services.interfaces.repositories.github_user import AbstractGithubUserR
 
 
 def get_order_by_field_by_str(model_cls, order_by_field: str):
+    field = None
+
     if order_by_field[0] == "-":
-        field = getattr(model_cls, order_by_field[1:]).desc()
+        if hasattr(model_cls, order_by_field[1:]):
+            field = getattr(model_cls, order_by_field[1:]).desc()
     else:
-        field = getattr(model_cls, order_by_field).asc()
+        if hasattr(model_cls, order_by_field):
+            field = getattr(model_cls, order_by_field).asc()
     return field
 
 
@@ -37,7 +41,10 @@ class GithubUserRepository(AbstractGithubUserRepository):
         else:
             offset = (page - 1) * per_page
 
-        order_by = get_order_by_field_by_str(GithubUser, order_by_field)
+        if order_by_field == None:
+            order_by = None
+        else:
+            order_by = get_order_by_field_by_str(GithubUser, order_by_field)
 
         github_users = (
             self.session.query(GithubUser)
