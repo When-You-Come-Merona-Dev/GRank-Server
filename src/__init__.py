@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.config import config
+from src.config import CONFIG
 from fastapi.middleware.cors import CORSMiddleware
 from src.adapters.orm import start_mappers
 
@@ -29,7 +29,7 @@ def init_router(app: FastAPI):
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(docs_url=None if config.API_ENV == "production" else "/docs")
+    app = FastAPI(docs_url=None if CONFIG.API_ENV == "production" else "/docs")
     init_router(app)
     init_middleware(app)
     init_orm()
