@@ -4,6 +4,14 @@ from src.domain.entities.github_user import GithubUser
 from src.services.interfaces.repositories.github_user import AbstractGithubUserRepository
 
 
+def get_order_by_field_by_str(model_cls, order_by_field: str):
+    if order_by_field[0] == "-":
+        field = getattr(model_cls, order_by_field[1:]).desc()
+    else:
+        field = getattr(model_cls, order_by_field).asc()
+    return field
+
+
 class GithubUserRepository(AbstractGithubUserRepository):
     def __init__(self, session: Session):
         self.session = session
@@ -23,18 +31,23 @@ class GithubUserRepository(AbstractGithubUserRepository):
         per_page: int,
         order_by_field: str,
     ) -> List[GithubUser]:
-        order_by = self.order_by_parser(order_by_field)
+
+        if page == None or per_page == None:
+            offset = None
+        else:
+            offset = (page - 1) * per_page
+
+        order_by = get_order_by_field_by_str(GithubUser, order_by_field)
+
         github_users = (
             self.session.query(GithubUser)
             .filter_by(**filters)
             .order_by(order_by)
             .limit(per_page)
-            .offset(page * per_page)
+            .offset(offset)
+            .all()
         )
         return github_users
 
     def renew_commit_count(self, commit_count) -> None:
-        return None
-
-    def order_by_parser(self, order_by_field):
         return None
