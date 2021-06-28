@@ -1,15 +1,19 @@
+from src.domain.entities.github_user import GithubUser
+from src.entrypoints import parsers
 from typing import Optional, List
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 from starlette import status
+from src.config import CONFIG
 from src.adapters.db.session import get_session
 from src.adapters.crawlers.github import RequestsGithubCrawler
 from src.adapters.repositories.github_user import GithubUserRepository
+from src.entrypoints.parsers.query_parser import QueryParameterParser
 from src.entrypoints.schemas.github_user import (
-    GithubUserListRequestDto,
     GithubUserCreateRequestDto,
     GithubUserCreateResponseDto,
     GithubUserListResponseDto,
+    GithubUserListRequestDto,
 )
 from src.services.use_cases.add_github_user import GithubUserAddUseCase
 from src.services.use_cases.list_github_user import GithubUserListUserCase
@@ -39,11 +43,16 @@ def add_github_user(
 )
 def list_github_user(
     request: Request,
-    page: Optional[int],
-    per_page: Optional[int],
-    order_by: Optional[str],
+    page: Optional[int] = None,
+    per_page: Optional[int] = None,
+    order_by: Optional[str] = "commit_count",
     session: Session = Depends(get_session),
 ) -> List[GithubUserListResponseDto]:
+
+    parser = QueryParameterParser(query=request.query_params)
+    page, per_page = parser.parse_pagination_parameter()
+    order_by = parser.parse_order_by_rule_parameter()
+
     crawler = None
     repo = GithubUserRepository(session)
 
