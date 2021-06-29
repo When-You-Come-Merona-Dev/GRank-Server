@@ -7,7 +7,7 @@ class Admin:
         self.updated_at = None
 
 
-class AdminSecretCode:
+class AdminCertificationCode:
     def __init__(self, code: str):
         self.code = code
         self.created_at = None
