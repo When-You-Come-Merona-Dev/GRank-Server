@@ -5,10 +5,7 @@ from src.infra.db.mapper import start_mappers
 
 
 def init_middleware(app: FastAPI):
-    origins = [
-        "http://localhost",
-        "http://localhost:3052",
-    ]
+    origins = ["*"]
     app.add_middleware(
         CORSMiddleware,
         allow_origins=origins,
