@@ -6,7 +6,6 @@ from src.github_user.services.interfaces.repository import AbstractGithubUserRep
 
 def get_order_by_field_by_str(model_cls, order_by_field: str):
     field = None
-
     if order_by_field[0] == "-":
         if hasattr(model_cls, order_by_field[1:]):
             field = getattr(model_cls, order_by_field[1:]).desc()

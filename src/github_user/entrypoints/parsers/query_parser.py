@@ -29,10 +29,5 @@ class QueryParameterParser:
         return page, per_page
 
     def parse_order_by_rule_parameter(self) -> str:
-        field = None
-        if hasattr(self, "order_by"):
-            if self.order_by[0] == "-":
-                return self.order_by[1:]
-            else:
-                return self.order_by
+        field = getattr(self, "order_by", None)
         return field
