@@ -4,5 +4,6 @@ from src.github_user.adapters.orm import start_mappers as github_user_start_mapp
 
 
 def start_mappers():
+    clear_mappers()
     admin_start_mappers()
     github_user_start_mappers()

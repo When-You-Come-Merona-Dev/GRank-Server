@@ -25,6 +25,5 @@ admin_certification_code = Table(
 
 
 def start_mappers():
-    clear_mappers()
     mapper(Admin, admin)
     mapper(AdminCertificationCode, admin_certification_code)

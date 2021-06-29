@@ -35,7 +35,6 @@ group = Table(
 
 
 def start_mappers():
-    clear_mappers()
     mapper(
         Group,
         group,
