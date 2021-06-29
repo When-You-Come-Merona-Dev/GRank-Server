@@ -1,4 +1,4 @@
-from src.domain.entities.group import Group
+from src.github_user.domain.entities.group import Group
 
 
 class GithubUser:

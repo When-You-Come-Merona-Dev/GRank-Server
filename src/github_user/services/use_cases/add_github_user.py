@@ -1,8 +1,8 @@
 from fastapi import HTTPException
-from src.domain.entities.github_user import GithubUser
-from src.services.interfaces.repositories.github_user import AbstractGithubUserRepository
-from src.services.interfaces.crawlers.github import AbstractCrawler
-from src.entrypoints.schemas.github_user import (
+from src.github_user.domain.entities.github_user import GithubUser
+from src.github_user.services.interfaces.repository import AbstractGithubUserRepository
+from src.github_user.services.interfaces.crawler import AbstractCrawler
+from src.github_user.entrypoints.schema import (
     GithubUserCreateRequestDto,
     GithubUserCreateResponseDto,
 )

@@ -1,10 +1,10 @@
 from datetime import datetime
-from sqlalchemy import Column, String, Integer, Boolean, DateTime, Table, MetaData
+from sqlalchemy import Column, String, Integer, Boolean, DateTime, Table
 from sqlalchemy.orm import mapper, relationship, clear_mappers
 from sqlalchemy.sql.schema import ForeignKey
-from src.adapters.db.session import metadata
-from src.domain.entities.github_user import GithubUser
-from src.domain.entities.group import Group
+from src.infra.db.session import metadata
+from src.github_user.domain.entities.github_user import GithubUser
+from src.github_user.domain.entities.group import Group
 
 
 github_user_group = Table(

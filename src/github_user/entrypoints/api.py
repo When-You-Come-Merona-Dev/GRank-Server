@@ -1,22 +1,19 @@
-from src.domain.entities.github_user import GithubUser
-from src.entrypoints import parsers
 from typing import Optional, List
-from fastapi import APIRouter, Depends, Request
-from sqlalchemy.orm import Session
 from starlette import status
-from src.config import CONFIG
-from src.adapters.db.session import get_session
-from src.adapters.crawlers.github import RequestsGithubCrawler
-from src.adapters.repositories.github_user import GithubUserRepository
-from src.entrypoints.parsers.query_parser import QueryParameterParser
-from src.entrypoints.schemas.github_user import (
+from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends, Request
+from src.infra.db.session import get_session
+from src.github_user.entrypoints.parsers.query_parser import QueryParameterParser
+from src.github_user.entrypoints.schema import (
     GithubUserCreateRequestDto,
     GithubUserCreateResponseDto,
     GithubUserListResponseDto,
     GithubUserListRequestDto,
 )
-from src.services.use_cases.add_github_user import GithubUserAddUseCase
-from src.services.use_cases.list_github_user import GithubUserListUserCase
+from src.github_user.adapters.crawler import RequestsGithubCrawler
+from src.github_user.adapters.repository import GithubUserRepository
+from src.github_user.services.use_cases.add_github_user import GithubUserAddUseCase
+from src.github_user.services.use_cases.list_github_user import GithubUserListUserCase
 
 router = APIRouter()
 

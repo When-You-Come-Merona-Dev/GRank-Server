@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from src.config import CONFIG
 from fastapi.middleware.cors import CORSMiddleware
-from src.adapters.orm import start_mappers
+from src.github_user.adapters.orm import start_mappers
 
 
 def init_middleware(app: FastAPI):
@@ -23,7 +23,7 @@ def init_orm():
 
 
 def init_router(app: FastAPI):
-    from src.entrypoints.api import router as github_user_router
+    from src.github_user.entrypoints.api import router as github_user_router
 
     app.include_router(github_user_router)
 

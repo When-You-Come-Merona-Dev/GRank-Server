@@ -1,7 +1,7 @@
+from typing import Union
 import requests
 from bs4 import BeautifulSoup
-from src.services.interfaces.crawlers.github import AbstractCrawler
-from typing import Union
+from src.github_user.services.interfaces.crawler import AbstractCrawler
 
 
 class RequestsGithubCrawler(AbstractCrawler):

@@ -1,6 +1,6 @@
 import abc
 from typing import Union, List
-from src.domain.entities.github_user import GithubUser
+from src.github_user.domain.entities.github_user import GithubUser
 
 
 class AbstractGithubUserRepository(abc.ABC):

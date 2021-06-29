@@ -1,7 +1,7 @@
 from typing import List
-from src.entrypoints.schemas.github_user import GithubUserListRequestDto, GithubUserListResponseDto
-from src.services.interfaces.repositories.github_user import AbstractGithubUserRepository
-from src.services.interfaces.crawlers.github import AbstractCrawler
+from src.github_user.entrypoints.schema import GithubUserListRequestDto, GithubUserListResponseDto
+from src.github_user.services.interfaces.repository import AbstractGithubUserRepository
+from src.github_user.services.interfaces.crawler import AbstractCrawler
 
 
 class GithubUserListUserCase:

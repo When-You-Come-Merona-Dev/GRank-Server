@@ -1,7 +1,7 @@
 from typing import Union, List
 from sqlalchemy.orm import Session
-from src.domain.entities.github_user import GithubUser
-from src.services.interfaces.repositories.github_user import AbstractGithubUserRepository
+from src.github_user.domain.entities.github_user import GithubUser
+from src.github_user.services.interfaces.repository import AbstractGithubUserRepository
 
 
 def get_order_by_field_by_str(model_cls, order_by_field: str):
