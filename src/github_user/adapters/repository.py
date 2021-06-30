@@ -59,5 +59,15 @@ class GithubUserRepository(AbstractGithubUserRepository):
         )
         return github_users
 
-    def renew_commit_count(self, commit_count) -> None:
-        return None
+    def approve_github_user(self, github_user: GithubUser) -> GithubUser:
+        try:
+            github_user.is_approved = True
+            self.session.commit()
+        except:
+            self.session.rollback()
+            raise
+
+        return github_user
+
+    def renew_commit_count(self, github_user: GithubUser, commit_count) -> None:
+        pass

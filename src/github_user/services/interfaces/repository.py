@@ -19,5 +19,9 @@ class AbstractGithubUserRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def renew_commit_count(self, commit_count) -> None:
+    def approve_github_user(self, github_user: GithubUser) -> GithubUser:
+        pass
+
+    @abc.abstractmethod
+    def renew_commit_count(self, github_user: GithubUser, commit_count) -> None:
         pass
