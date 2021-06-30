@@ -40,6 +40,7 @@ class GithubUser:
         return {
             "id": self.id,
             "username": self.username,
+            "avatar_url": self.avatar_url,
             "commit_count": self.commit_count,
             "is_approved": self.is_approved,
             "groups": self.groups,
