@@ -1,5 +1,5 @@
-from src.domain.entities.group import Group
-from src.domain.entities.github_user import GithubUser
+from src.github_user.domain.entities.group import Group
+from src.github_user.domain.entities.github_user import GithubUser
 
 
 def make_github_user_and_group(github_user_name: str = "test_user", group_name: str = "test_group"):

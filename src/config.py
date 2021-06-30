@@ -25,6 +25,11 @@ class Config:
 
     PAGINATION_PER_PAGE: int = int(environ.get("PAGINATION_PER_PAGE", 5))
 
+    JWT_SECRET_KEY: str = environ.get("JWT_SECRET_KEY")
+    JWT_ALGORITHM: str = environ.get("JWT_ALGORITHM", "HS256")
+
+    DOMAIN: str = environ.get("DOMAIN", "localhost")
+
 
 @dataclass
 class DevelopConfig(Config):

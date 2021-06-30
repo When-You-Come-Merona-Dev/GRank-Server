@@ -1,14 +1,14 @@
 from fastapi import FastAPI
 from src.config import CONFIG
 from fastapi.middleware.cors import CORSMiddleware
-from src.adapters.orm import start_mappers
+from src.infra.db.mapper import start_mappers
+from src.middlewares.authentication import AuthenticationMiddleware, JWTAuthenticationBackend
 
 
 def init_middleware(app: FastAPI):
-    origins = [
-        "http://localhost",
-        "http://localhost:3052",
-    ]
+    app.add_middleware(AuthenticationMiddleware, backend=JWTAuthenticationBackend())
+
+    origins = ["*"]
     app.add_middleware(
         CORSMiddleware,
         allow_origins=origins,
@@ -23,9 +23,11 @@ def init_orm():
 
 
 def init_router(app: FastAPI):
-    from src.entrypoints.api import router as github_user_router
+    from src.github_user.entrypoints.api import router as github_user_router
+    from src.admin.entrypoints.api import router as admin_router
 
-    app.include_router(github_user_router)
+    for router in [github_user_router, admin_router]:
+        app.include_router(router)
 
 
 def create_app() -> FastAPI:

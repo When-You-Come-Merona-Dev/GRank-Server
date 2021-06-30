@@ -7,7 +7,7 @@ from sqlalchemy import pool
 from alembic import context
 
 from src.config import load_config
-from src.adapters.db.session import metadata
+from src.infra.db.session import metadata
 
 CONFIG = load_config()
 
@@ -20,7 +20,7 @@ config = context.config
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
-from src.adapters.orm import start_mappers
+from src.infra.db.mapper import start_mappers
 
 start_mappers()
 target_metadata = metadata
