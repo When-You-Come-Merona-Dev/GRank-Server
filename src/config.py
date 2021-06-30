@@ -28,7 +28,7 @@ class Config:
     JWT_SECRET_KEY: str = environ.get("JWT_SECRET_KEY")
     JWT_ALGORITHM: str = environ.get("JWT_ALGORITHM", "HS256")
 
-    DOMAIN: str = environ.get("DOMAIN", "localhost")
+    DOMAIN: str = environ.get("DOMAIN", "localhost:3052")
 
 
 @dataclass
