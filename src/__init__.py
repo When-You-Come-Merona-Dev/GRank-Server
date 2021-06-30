@@ -2,9 +2,12 @@ from fastapi import FastAPI
 from src.config import CONFIG
 from fastapi.middleware.cors import CORSMiddleware
 from src.infra.db.mapper import start_mappers
+from src.middlewares.authentication import AuthenticationMiddleware, JWTAuthenticationBackend
 
 
 def init_middleware(app: FastAPI):
+    app.add_middleware(AuthenticationMiddleware, backend=JWTAuthenticationBackend())
+
     origins = ["*"]
     app.add_middleware(
         CORSMiddleware,
