@@ -13,6 +13,10 @@ class GithubUserListRequestDto(BaseModel):
     order_by: Optional[str]
 
 
+class GithubUserApproveRequestDto(BaseModel):
+    username: str
+
+
 # Response
 class GithubUserCreateResponseDto(BaseModel):
     id: int
@@ -35,6 +39,16 @@ class GithubUserRetrieveResponseDto(BaseModel):
 
 
 class GithubUserListResponseDto(BaseModel):
+    id: int
+    username: str
+    commit_count: int
+    is_approved: bool
+    groups: set
+    created_at: str
+    updated_at: str
+
+
+class GithubUserApproveResponseDto(BaseModel):
     id: int
     username: str
     commit_count: int
