@@ -21,6 +21,7 @@ class GithubUserApproveRequestDto(BaseModel):
 class GithubUserCreateResponseDto(BaseModel):
     id: int
     username: str
+    avatar_url: str
     commit_count: int
     is_approved: bool
     groups: set
@@ -31,6 +32,7 @@ class GithubUserCreateResponseDto(BaseModel):
 class GithubUserRetrieveResponseDto(BaseModel):
     id: int
     username: str
+    avatar_url: str
     commit_count: int
     is_approved: bool
     groups: set
@@ -41,6 +43,7 @@ class GithubUserRetrieveResponseDto(BaseModel):
 class GithubUserListResponseDto(BaseModel):
     id: int
     username: str
+    avatar_url: str
     commit_count: int
     is_approved: bool
     groups: set
@@ -51,6 +54,7 @@ class GithubUserListResponseDto(BaseModel):
 class GithubUserApproveResponseDto(BaseModel):
     id: int
     username: str
+    avatar_url: str
     commit_count: int
     is_approved: bool
     groups: set
