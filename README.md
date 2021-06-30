@@ -8,7 +8,7 @@ _*GSM(광주 소프트웨어 마이스터 고등학교)* **커밋 랭킹 사이�
 <img src="https://img.shields.io/github/commit-activity/m/When-You-Come-Merona-Dev/GRank-Server"/></a></a>
 </div>
 
-### :seat: 프로젝트 개요
+### :zap: 프로젝트 개요
 
 **GSM** 커밋 랭킹 서비스 **`GRANK`** 를 사용하면
 현재 나의 커밋 갯수가 **GSM**에서 몇등인지 파악할 수 있습니다.
