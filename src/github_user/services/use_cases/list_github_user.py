@@ -10,6 +10,8 @@ class GithubUserListUserCase:
         self.crawler = crawler
 
     def execute(self, input_dto: GithubUserListResponseDto) -> List[GithubUserListRequestDto]:
+        input_dto.filters["is_approved"] = True
+
         github_users = self.repo.list_github_user(
             filters=input_dto.filters,
             page=input_dto.page,
