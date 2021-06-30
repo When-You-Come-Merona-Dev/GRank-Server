@@ -1,10 +1,12 @@
 from src.github_user.domain.entities.group import Group
+from src.config import CONFIG
 
 
 class GithubUser:
     def __init__(self, username: str):
         self.id = None
         self.username = username
+        self.avatar_url = CONFIG.DOMAIN + "/static/images/default_github_user_avatar.png"
         self.commit_count = 0
         self.is_approved = False
         self._groups = set()
@@ -22,6 +24,9 @@ class GithubUser:
         if group in self._groups:
             self._groups.remove(group)
 
+    def renew_avatar_url(self, new_avatar_url: str):
+        self.avatar_url = new_avatar_url
+
     def renew_commit_count(self, new_commit_count: int):
         self.commit_count = new_commit_count
 
@@ -35,6 +40,7 @@ class GithubUser:
         return {
             "id": self.id,
             "username": self.username,
+            "avatar_url": self.avatar_url,
             "commit_count": self.commit_count,
             "is_approved": self.is_approved,
             "groups": self.groups,

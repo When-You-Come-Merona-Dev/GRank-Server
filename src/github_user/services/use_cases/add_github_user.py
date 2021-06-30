@@ -21,12 +21,14 @@ class GithubUserAddUseCase:
             raise HTTPException(status_code=400, detail="already exists github username")
 
         commit_count = self.crawler.get_commit_count_from_username(input_dto.username)
+        avatar_url = self.crawler.get_avatar_url_from_username(input_dto.username)
 
-        if commit_count == None:
+        if commit_count == None or avatar_url == None:
             raise HTTPException(status_code=404, detail="not exists github user")
 
         github_user = GithubUser(username=input_dto.username)
         github_user.renew_commit_count(commit_count)
+        github_user.renew_avatar_url(avatar_url)
 
         self.repo.create_github_user(github_user)
 

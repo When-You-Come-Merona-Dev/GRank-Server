@@ -1,8 +1,9 @@
 from fastapi import FastAPI
-from src.config import CONFIG
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from src.infra.db.mapper import start_mappers
 from src.middlewares.authentication import AuthenticationMiddleware, JWTAuthenticationBackend
+from src.config import CONFIG
 
 
 def init_middleware(app: FastAPI):
@@ -23,6 +24,8 @@ def init_orm():
 
 
 def init_router(app: FastAPI):
+    app.mount("/static", StaticFiles(directory="static"), name="static")
+
     from src.github_user.entrypoints.api import router as github_user_router
     from src.admin.entrypoints.api import router as admin_router
 

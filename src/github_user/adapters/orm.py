@@ -19,6 +19,7 @@ github_user = Table(
     metadata,
     Column("id", Integer, primary_key=True, unique=True, autoincrement=True),
     Column("username", String(length=256), unique=True, nullable=False),
+    Column("avatar_url", String(length=2048), nullable=False),
     Column("commit_count", Integer, default=0, nullable=False),
     Column("is_approved", Boolean, default=False, nullable=False),
     Column("created_at", DateTime, default=datetime.now),
