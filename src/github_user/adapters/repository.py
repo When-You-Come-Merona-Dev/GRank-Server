@@ -69,5 +69,13 @@ class GithubUserRepository(AbstractGithubUserRepository):
 
         return github_user
 
-    def renew_commit_count(self, github_user: GithubUser, commit_count) -> None:
+    def renew_avatar_url(self, github_user: GithubUser, avatar_url: str) -> None:
+        try:
+            github_user.avatar_url = avatar_url
+            self.session.commit()
+        except:
+            self.session.rollback()
+            raise
+
+    def renew_commit_count(self, github_user: GithubUser, commit_count: int) -> None:
         pass

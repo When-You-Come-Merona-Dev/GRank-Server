@@ -23,5 +23,9 @@ class AbstractGithubUserRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def renew_commit_count(self, github_user: GithubUser, commit_count) -> None:
+    def renew_avatar_url(self, github_user: GithubUser, avatar_url: str) -> None:
+        pass
+
+    @abc.abstractmethod
+    def renew_commit_count(self, github_user: GithubUser, commit_count: int) -> None:
         pass
