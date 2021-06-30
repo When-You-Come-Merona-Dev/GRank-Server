@@ -1,7 +1,9 @@
 from typing import Optional, List
+from fastapi import security
 from starlette import status
 from sqlalchemy.orm import Session
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, Security
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from src.infra.db.session import get_session
 from src.github_user.entrypoints.parsers.query_parser import QueryParameterParser
 from src.github_user.entrypoints.schema import (
@@ -9,13 +11,18 @@ from src.github_user.entrypoints.schema import (
     GithubUserCreateResponseDto,
     GithubUserListResponseDto,
     GithubUserListRequestDto,
+    GithubUserApproveResponseDto,
+    GithubUserApproveRequestDto,
 )
 from src.github_user.adapters.crawler import RequestsGithubCrawler
 from src.github_user.adapters.repository import GithubUserRepository
 from src.github_user.services.use_cases.add_github_user import GithubUserAddUseCase
 from src.github_user.services.use_cases.list_github_user import GithubUserListUserCase
+from src.github_user.services.use_cases.approve_github_user import GithubUserApproveUseCase
+from src.utils.permissions import IsAuthenticated, check_permissions
 
 router = APIRouter()
+security = HTTPBearer()
 
 
 @router.post(
@@ -62,3 +69,23 @@ def list_github_user(
     response_dto = use_case.execute(request_dto)
 
     return response_dto
+
+
+@router.patch(
+    "/github-user/{username}/approve",
+    response_model=GithubUserApproveResponseDto,
+    status_code=status.HTTP_200_OK,
+)
+def approve_github_user(
+    request: Request,
+    username: str,
+    session: Session = Depends(get_session),
+    credentials: HTTPAuthorizationCredentials = Security(security),
+) -> GithubUserApproveResponseDto:
+    check_permissions(request=request, permissions=[IsAuthenticated])
+
+    repo = GithubUserRepository(session)
+    use_case = GithubUserApproveUseCase(repo=repo)
+    input_dto = GithubUserApproveRequestDto(username=username)
+    output_dto = use_case.execute(input_dto)
+    return output_dto
