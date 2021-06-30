@@ -1,6 +1,5 @@
 import secrets
 import bcrypt
-from functools import lru_cache
 
 
 def get_hasher(algorithm: str = "default"):
