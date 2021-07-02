@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from os import environ
+from src.infra.db.session import get_session
 
 
 @dataclass
@@ -30,6 +31,8 @@ class Config:
 
     DOMAIN: str = environ.get("DOMAIN", "localhost:3052")
 
+    DEFAULT_SESSION_FACTIRY: callable = get_session
+
 
 @dataclass
 class DevelopConfig(Config):
@@ -53,7 +56,7 @@ class TestConfig(Config):
     TEST_MODE: bool = True
 
 
-def load_config():
+def load_config() -> Config:
     config = dict(product=ProductConfig, develop=DevelopConfig, test=TestConfig)
     return config[environ.get("API_ENV", "develop")]()
 
