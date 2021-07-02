@@ -1,7 +1,7 @@
 from typing import Union, List
 from sqlalchemy.orm import Session
 from src.github_user.domain.entities.github_user import GithubUser
-from src.github_user.services.interfaces.repository import AbstractGithubUserRepository
+from src.github_user.services.interfaces.repository import AbstractRepository
 
 
 def get_order_by_field_by_str(model_cls, order_by_field: str):
@@ -15,11 +15,11 @@ def get_order_by_field_by_str(model_cls, order_by_field: str):
     return field
 
 
-class GithubUserRepository(AbstractGithubUserRepository):
+class SQLAlchemyRepository(AbstractRepository):
     def __init__(self, session: Session):
         self.session = session
 
-    def create_github_user(self, github_user: GithubUser) -> None:
+    def add(self, github_user: GithubUser) -> None:
         try:
             self.session.add(github_user)
             self.session.commit()
@@ -27,11 +27,11 @@ class GithubUserRepository(AbstractGithubUserRepository):
             self.session.rollback()
             raise
 
-    def get_github_user_by_username(self, username: str) -> Union[GithubUser, None]:
+    def get_by_username(self, username: str) -> Union[GithubUser, None]:
         github_user = self.session.query(GithubUser).filter(GithubUser.username == username).first()
         return github_user
 
-    def list_github_user(
+    def list(
         self,
         filters: dict,
         page: int,
@@ -59,7 +59,7 @@ class GithubUserRepository(AbstractGithubUserRepository):
         )
         return github_users
 
-    def approve_github_user(self, github_user: GithubUser) -> GithubUser:
+    def approve(self, github_user: GithubUser) -> GithubUser:
         try:
             github_user.is_approved = True
             self.session.commit()
