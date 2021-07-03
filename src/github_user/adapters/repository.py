@@ -32,11 +32,7 @@ class GithubUserRepository(AbstractGithubUserRepository):
         return github_user
 
     def list_github_user(
-        self,
-        filters: dict,
-        page: int,
-        per_page: int,
-        order_by_field: str,
+        self, filters: dict = {}, page: int = None, per_page: int = None, order_by_field: str = None
     ) -> List[GithubUser]:
 
         if page == None or per_page == None:
