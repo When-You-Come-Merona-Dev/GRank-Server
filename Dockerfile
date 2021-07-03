@@ -1,5 +1,9 @@
 FROM python:3.7
-COPY requirements.txt .
-RUN pip install --default-timeout=100 -r requirements.txt
-COPY . .
+RUN apt-get update && apt-get -y install \
+    libpq-dev
+
+WORKDIR /app
+ADD ./requirements.txt /app/
+RUN chmod -R 700 scripts/
+RUN pip install -r requirements.txt
 EXPOSE 3052
