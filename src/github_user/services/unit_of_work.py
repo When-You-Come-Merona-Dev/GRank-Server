@@ -1,7 +1,9 @@
 import abc
 from src.github_user.services.interfaces.repository import AbstractRepository
 from src.github_user.adapters.repository import SQLAlchemyRepository
-from src.config import CONFIG
+from src.infra.db.session import get_session
+
+DEFAULT_SESSION_FACTIRY = get_session
 
 
 class AbstractUnitOfWork(abc.ABC):
@@ -20,7 +22,7 @@ class AbstractUnitOfWork(abc.ABC):
 
 
 class SQLAlchemyUnitOfWork(AbstractUnitOfWork):
-    def __init__(self, session_factory=CONFIG.DEFAULT_SESSION_FACTIRY):
+    def __init__(self, session_factory=DEFAULT_SESSION_FACTIRY):
         self.session_factory = session_factory
 
     def __enter__(self):

@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from os import environ
-from src.infra.db.session import get_session
 
 
 @dataclass
@@ -30,8 +29,6 @@ class Config:
     JWT_ALGORITHM: str = environ.get("JWT_ALGORITHM", "HS256")
 
     DOMAIN: str = environ.get("DOMAIN", "localhost:3052")
-
-    DEFAULT_SESSION_FACTIRY: callable = get_session
 
 
 @dataclass
