@@ -1,9 +1,9 @@
-version: "3.7"
+version: "2.1"
 
 services:
   db:
     image: postgres
-    container_name: wycm_db
+    container_name: grank_db
     env_file:
       - dev.env
     healthcheck:
@@ -19,8 +19,8 @@ services:
       dockerfile: ./compose/develop/Dockerfile-dev
     volumes:
       - ./:/app/
-    command: bash -c "python main.py"
-    container_name: wycm_web
+    command: /bin/sh -c "scripts/start.sh"
+    container_name: grank_web
     env_file:
       - dev.env
     depends_on:
