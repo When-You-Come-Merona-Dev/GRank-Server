@@ -17,6 +17,14 @@ class GithubUserApproveRequestDto(BaseModel):
     username: str
 
 
+class GithubUserRenewOneRequestDto(BaseModel):
+    username: str
+
+
+class GithubUserRenewAllRequestDto(BaseModel):
+    pass
+
+
 # Response
 class GithubUserCreateResponseDto(BaseModel):
     id: int
@@ -52,6 +60,28 @@ class GithubUserListResponseDto(BaseModel):
 
 
 class GithubUserApproveResponseDto(BaseModel):
+    id: int
+    username: str
+    avatar_url: str
+    commit_count: int
+    is_approved: bool
+    groups: set
+    created_at: str
+    updated_at: str
+
+
+class GithubUserRenewOneResponseDto(BaseModel):
+    id: int
+    username: str
+    avatar_url: str
+    commit_count: int
+    is_approved: bool
+    groups: set
+    created_at: str
+    updated_at: str
+
+
+class GithubUserRenewAllResponseDto(BaseModel):
     id: int
     username: str
     avatar_url: str

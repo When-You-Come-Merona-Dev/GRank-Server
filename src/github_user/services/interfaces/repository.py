@@ -14,7 +14,7 @@ class AbstractGithubUserRepository(abc.ABC):
 
     @abc.abstractmethod
     def list_github_user(
-        self, filters: dict, page: int, per_page: int, order_by_field: str
+        self, filters: dict = {}, page: int = None, per_page: int = None, order_by_field: str = None
     ) -> List[GithubUser]:
         pass
 
@@ -23,9 +23,9 @@ class AbstractGithubUserRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def renew_avatar_url(self, github_user: GithubUser, avatar_url: str) -> None:
+    def renew_avatar_url(self, github_user: GithubUser, avatar_url: str) -> GithubUser:
         pass
 
     @abc.abstractmethod
-    def renew_commit_count(self, github_user: GithubUser, commit_count: int) -> None:
+    def renew_commit_count(self, github_user: GithubUser, commit_count: int) -> GithubUser:
         pass

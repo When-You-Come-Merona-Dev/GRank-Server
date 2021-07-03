@@ -32,11 +32,7 @@ class GithubUserRepository(AbstractGithubUserRepository):
         return github_user
 
     def list_github_user(
-        self,
-        filters: dict,
-        page: int,
-        per_page: int,
-        order_by_field: str,
+        self, filters: dict = {}, page: int = None, per_page: int = None, order_by_field: str = None
     ) -> List[GithubUser]:
 
         if page == None or per_page == None:
@@ -69,7 +65,7 @@ class GithubUserRepository(AbstractGithubUserRepository):
 
         return github_user
 
-    def renew_avatar_url(self, github_user: GithubUser, avatar_url: str) -> None:
+    def renew_avatar_url(self, github_user: GithubUser, avatar_url: str) -> GithubUser:
         try:
             github_user.avatar_url = avatar_url
             self.session.commit()
@@ -77,5 +73,14 @@ class GithubUserRepository(AbstractGithubUserRepository):
             self.session.rollback()
             raise
 
-    def renew_commit_count(self, github_user: GithubUser, commit_count: int) -> None:
-        pass
+        return github_user
+
+    def renew_commit_count(self, github_user: GithubUser, commit_count: int) -> GithubUser:
+        try:
+            github_user.commit_count = commit_count
+            self.session.commit()
+        except:
+            self.session.rollback()
+            raise
+
+        return github_user

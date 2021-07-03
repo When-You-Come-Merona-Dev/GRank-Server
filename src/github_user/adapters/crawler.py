@@ -2,6 +2,7 @@ import json
 from typing import Union
 import requests
 from bs4 import BeautifulSoup
+from fastapi import HTTPException
 from src.github_user.services.interfaces.crawler import AbstractCrawler
 
 
@@ -20,6 +21,10 @@ class RequestsGithubCrawler(AbstractCrawler):
         response = requests.get(f"https://api.github.com/users/{username}")
         if response.status_code == 404:
             return None
+        if response.status_code == 403:
+            raise HTTPException(
+                status_code=403, detail="잠시 후에 시도해주세요, Github API가 1시간당 받을 수 있는 요청 갯수를 초과했습니다."
+            )
         data = response.content.decode("utf8").replace("'", '"')
         github_user = json.loads(data)
         return github_user["avatar_url"]
