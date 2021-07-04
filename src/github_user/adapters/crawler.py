@@ -4,9 +4,13 @@ import requests
 from bs4 import BeautifulSoup
 from fastapi import HTTPException
 from src.github_user.services.interfaces.crawler import AbstractCrawler
+from src.config import CONFIG
 
 
 class RequestsGithubCrawler(AbstractCrawler):
+    def __init__(self):
+        self.headers = {"Authorization": f"Bearer {CONFIG.GITHUB_API_TOKEN}"}
+
     def get_commit_count_from_username(self, username) -> Union[int, None]:
         response = requests.get(f"https://github.com/users/{username}/contributions")
         if response.status_code == 404:
@@ -18,7 +22,7 @@ class RequestsGithubCrawler(AbstractCrawler):
         return int(first.get_text().split()[0].replace(",", ""))
 
     def get_avatar_url_from_username(self, username: str) -> str:
-        response = requests.get(f"https://api.github.com/users/{username}")
+        response = requests.get(f"https://api.github.com/users/{username}", headers=self.headers)
         if response.status_code == 404:
             return None
         if response.status_code == 403:
