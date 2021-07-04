@@ -30,6 +30,8 @@ class Config:
 
     DOMAIN: str = environ.get("DOMAIN", "localhost:3052")
 
+    GITHUB_API_TOKEN: str = environ.get("GITHUB_API_TOKEN", None)
+
 
 @dataclass
 class DevelopConfig(Config):
