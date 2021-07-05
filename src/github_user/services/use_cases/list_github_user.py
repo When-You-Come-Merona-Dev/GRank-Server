@@ -1,13 +1,12 @@
 from typing import List
 from src.github_user.entrypoints.schema import GithubUserListRequestDto, GithubUserListResponseDto
 from src.github_user.services.interfaces.repository import AbstractGithubUserRepository
-from src.github_user.services.interfaces.crawler import AbstractCrawler
+from src.github_user.services.interfaces.external_api import AbstractExternalAPIClient
 
 
 class GithubUserListUserCase:
-    def __init__(self, repo: AbstractGithubUserRepository, crawler: AbstractCrawler):
+    def __init__(self, repo: AbstractGithubUserRepository):
         self.repo = repo
-        self.crawler = crawler
 
     def execute(self, input_dto: GithubUserListResponseDto) -> List[GithubUserListRequestDto]:
         input_dto.filters["is_approved"] = True

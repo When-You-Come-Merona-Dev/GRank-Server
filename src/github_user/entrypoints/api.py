@@ -18,7 +18,7 @@ from src.github_user.entrypoints.schema import (
     GithubUserRenewOneRequestDto,
     GithubUserRenewOneResponseDto,
 )
-from src.github_user.adapters.crawler import RequestsGithubCrawler
+from src.github_user.adapters.external_api import RequestExternalAPIClient
 from src.github_user.adapters.repository import GithubUserRepository
 from src.github_user.services.use_cases.add_github_user import GithubUserAddUseCase
 from src.github_user.services.use_cases.list_github_user import GithubUserListUserCase
@@ -39,7 +39,7 @@ security = HTTPBearer()
 def add_github_user(
     user: GithubUserCreateRequestDto, session: Session = Depends(get_session)
 ) -> GithubUserCreateResponseDto:
-    crawler = RequestsGithubCrawler()
+    crawler = RequestExternalAPIClient()
     repo = GithubUserRepository(session)
 
     use_case = GithubUserAddUseCase(repo=repo, crawler=crawler)
@@ -107,7 +107,7 @@ def renew_one_github_user(
     session: Session = Depends(get_session),
 ) -> GithubUserRenewOneResponseDto:
     repo = GithubUserRepository(session)
-    crawler = RequestsGithubCrawler()
+    crawler = RequestExternalAPIClient()
 
     input_dto = GithubUserRenewOneRequestDto(username=username)
 
@@ -130,7 +130,7 @@ def renew_all_github_user(
     check_permissions(request=request, permissions=[IsAuthenticated])
 
     repo = GithubUserRepository(session)
-    crawler = RequestsGithubCrawler()
+    crawler = RequestExternalAPIClient()
 
     input_dto = GithubUserRenewAllRequestDto()
 

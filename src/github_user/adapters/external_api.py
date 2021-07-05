@@ -3,11 +3,11 @@ from typing import Union
 import requests
 from bs4 import BeautifulSoup
 from fastapi import HTTPException
-from src.github_user.services.interfaces.crawler import AbstractCrawler
+from src.github_user.services.interfaces.external_api import AbstractExternalAPIClient
 from src.config import CONFIG
 
 
-class RequestsGithubCrawler(AbstractCrawler):
+class RequestExternalAPIClient(AbstractExternalAPIClient):
     def __init__(self):
         self.headers = {"Authorization": f"Bearer {CONFIG.GITHUB_API_TOKEN}"}
 
