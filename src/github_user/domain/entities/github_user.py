@@ -10,12 +10,17 @@ class GithubUser:
         self.commit_count = 0
         self.is_approved = False
         self._groups = set()
+        self._social_authentication_id = None
         self.created_at = None
         self.updated_at = None
 
     @property
     def groups(self):
         return self._groups
+
+    @property
+    def social_authentication_id(self):
+        return self._social_authentication_id
 
     def join_group(self, group: Group):
         self._groups.add(group)
