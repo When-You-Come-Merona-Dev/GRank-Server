@@ -5,6 +5,7 @@ from sqlalchemy.sql.schema import ForeignKey
 from src.infra.db.session import metadata
 from src.github_user.domain.entities.github_user import GithubUser
 from src.github_user.domain.entities.group import Group
+from src.github_user.domain.entities.social_authenticaiton import SocialAuthentication
 
 
 github_user_group = Table(
@@ -34,6 +35,13 @@ group = Table(
     Column("category", String(length=256), nullable=False),
 )
 
+social_authentication = Table(
+    "social_authentication",
+    metadata,
+    Column("id", Integer, primary_key=True, unique=True, autoincrement=True),
+    Column("sns_service_id", String(length=256), nullable=False),
+)
+
 
 def start_mappers():
     mapper(
@@ -51,4 +59,9 @@ def start_mappers():
         properties={
             "groups": relationship(Group, secondary=github_user_group, back_populates="members")
         },
+    )
+    mapper(
+        SocialAuthentication,
+        social_authentication,
+        properties={"github_user_id": relationship(GithubUser, backref="social_authentication_id")},
     )
