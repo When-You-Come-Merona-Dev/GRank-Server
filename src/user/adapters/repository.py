@@ -17,5 +17,5 @@ class SQLAlchemyUserRepository(AbstractUserRepository):
         return
 
     def get_user_by_github_id(self, github_id: str) -> Union[User, None]:
-        user = self.session.query(User).filter(User.github_id == github_id).first()
+        user = self.session.query(User).filter(User.github_id == str(github_id)).first()
         return user
