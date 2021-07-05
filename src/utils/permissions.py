@@ -40,6 +40,11 @@ class IsAuthenticated(BasePermission):
     exception = PermissionDeniedException
 
     def has_permission(self, request):
-        if getattr(request.user, "is_authenticated", False):
-            return True
-        return False
+        return getattr(request.user, "is_authenticated", False)
+
+
+class IsAdmin(BasePermission):
+    exception = PermissionDeniedException
+
+    def has_permission(self, request):
+        return getattr(request.user, "is_admin", False)

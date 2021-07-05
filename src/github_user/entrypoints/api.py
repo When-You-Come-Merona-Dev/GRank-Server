@@ -25,7 +25,7 @@ from src.github_user.services.use_cases.list_github_user import GithubUserListUs
 from src.github_user.services.use_cases.approve_github_user import GithubUserApproveUseCase
 from src.github_user.services.use_cases.renew_one_github_user import GithubUserRenewOneUseCase
 from src.github_user.services.use_cases.renew_all_github_user import GithubUserRenewAllUseCase
-from src.utils.permissions import IsAuthenticated, check_permissions
+from src.utils.permissions import IsAdmin, check_permissions
 
 router = APIRouter()
 security = HTTPBearer()
@@ -88,7 +88,7 @@ def approve_github_user(
     session: Session = Depends(get_session),
     credentials: HTTPAuthorizationCredentials = Security(security),
 ) -> GithubUserApproveResponseDto:
-    check_permissions(request=request, permissions=[IsAuthenticated])
+    check_permissions(request=request, permissions=[IsAdmin])
 
     repo = GithubUserRepository(session)
     use_case = GithubUserApproveUseCase(repo=repo)
@@ -127,7 +127,7 @@ def renew_all_github_user(
     session: Session = Depends(get_session),
     credentials: HTTPAuthorizationCredentials = Security(security),
 ) -> List[GithubUserRenewAllResponseDto]:
-    check_permissions(request=request, permissions=[IsAuthenticated])
+    check_permissions(request=request, permissions=[IsAdmin])
 
     repo = GithubUserRepository(session)
     crawler = RequestExternalAPIClient()
