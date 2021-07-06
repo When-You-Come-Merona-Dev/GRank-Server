@@ -30,8 +30,11 @@ class SNSGithubLoginUseCase:
         else:
             hashed_password = hash_password(user_info["node_id"])
             user_instance = GithubUser(
-                github_id=github_id, password=hashed_password
-            )  # avatar url, username 정보 이후 더 추가
+                github_id=github_id,
+                password=hashed_password,
+                username=user_info["login"],
+                avatar_url=user_info["avatar_url"],
+            )
             self.repo.create_github_user(github_user=user_instance)
 
         payload = jwt_payload_handler(user_instance)
