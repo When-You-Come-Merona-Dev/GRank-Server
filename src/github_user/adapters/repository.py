@@ -31,6 +31,12 @@ class GithubUserRepository(AbstractGithubUserRepository):
         github_user = self.session.query(GithubUser).filter(GithubUser.username == username).first()
         return github_user
 
+    def get_user_by_github_id(self, github_id: str) -> Union[GithubUser, None]:
+        github_user = (
+            self.session.query(GithubUser).filter(GithubUser.github_id == github_id).first()
+        )
+        return github_user
+
     def list_github_user(
         self, filters: dict = {}, page: int = None, per_page: int = None, order_by_field: str = None
     ) -> List[GithubUser]:
