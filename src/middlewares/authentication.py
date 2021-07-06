@@ -8,7 +8,8 @@ from src.utils.token_handlers import jwt_decode_handler
 
 
 class CustomUser(BaseUser):
-    def __init__(self, is_admin: bool) -> None:
+    def __init__(self, username: str, is_admin: bool) -> None:
+        self.username = username
         self.is_admin = is_admin
 
     @property
@@ -36,7 +37,7 @@ class JWTAuthenticationBackend(AuthenticationBackend):
             payload = jwt_decode_handler(token)
         except jwt.PyJWTError as exe:
             return False, None
-        user = CustomUser(is_admin=payload["is_admin"])
+        user = CustomUser(username=payload["username"], is_admin=payload["is_admin"])
         return True, user
 
 
