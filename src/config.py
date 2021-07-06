@@ -31,6 +31,9 @@ class Config:
     DOMAIN: str = environ.get("DOMAIN", "localhost:3052")
 
     GITHUB_API_TOKEN: str = environ.get("GITHUB_API_TOKEN", None)
+    GITHUB_API_CLIENT_ID: str = environ.get("GITHUB_API_CLIENT_ID", None)
+    GITHUB_API_CLIENT_SECRET: str = environ.get("GITHUB_API_CLIENT_SECRET", None)
+    GITHUB_OAUTH_REDIRECT_URI: str = environ.get("GITHUB_OAUTH_REDIRECT_URI", None)
 
 
 @dataclass

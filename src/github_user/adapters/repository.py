@@ -31,6 +31,12 @@ class SQLAlchemyRepository(AbstractRepository):
         github_user = self.session.query(GithubUser).filter(GithubUser.username == username).first()
         return github_user
 
+    def get_user_by_github_id(self, github_id: str) -> Union[GithubUser, None]:
+        github_user = (
+            self.session.query(GithubUser).filter(GithubUser.github_id == str(github_id)).first()
+        )
+        return github_user
+
     def list_github_user(
         self, filters: dict = {}, page: int = None, per_page: int = None, order_by_field: str = None
     ) -> List[GithubUser]:
@@ -58,6 +64,16 @@ class SQLAlchemyRepository(AbstractRepository):
     def approve(self, github_user: GithubUser) -> GithubUser:
         try:
             github_user.is_approved = True
+            self.session.commit()
+        except:
+            self.session.rollback()
+            raise
+
+        return github_user
+
+    def make_public_github_user(self, github_user: GithubUser) -> GithubUser:
+        try:
+            github_user.is_public = True
             self.session.commit()
         except:
             self.session.rollback()
