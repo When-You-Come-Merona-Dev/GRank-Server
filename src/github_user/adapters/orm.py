@@ -23,6 +23,8 @@ github_user = Table(
     Column("username", String(length=256), unique=True, nullable=False),
     Column("avatar_url", String(length=2048), nullable=False),
     Column("commit_count", Integer, default=0, nullable=False),
+    Column("grade", Integer, default=0, nullable=False),
+    Column("is_public", Boolean, default=False, nullable=False),
     Column("is_approved", Boolean, default=False, nullable=False),
     Column("created_at", DateTime, default=datetime.now),
     Column("updated_at", DateTime, default=datetime.now, onupdate=datetime.now),
