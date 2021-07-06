@@ -25,6 +25,10 @@ class GithubUserRenewAllRequestDto(BaseModel):
     pass
 
 
+class GithubUserMakePublicRequestDto(BaseModel):
+    username: str
+
+
 class SNSGithubCallbackRequestDto(BaseModel):
     code: str
 
@@ -86,6 +90,17 @@ class GithubUserRenewOneResponseDto(BaseModel):
 
 
 class GithubUserRenewAllResponseDto(BaseModel):
+    id: int
+    username: str
+    avatar_url: str
+    commit_count: int
+    is_approved: bool
+    groups: set
+    created_at: str
+    updated_at: str
+
+
+class GithubUserMakePublicResponseDto(BaseModel):
     id: int
     username: str
     avatar_url: str
