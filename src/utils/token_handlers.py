@@ -1,7 +1,7 @@
+from src.github_user.domain.entities.github_user import GithubUser
 from typing import Union
 from datetime import timedelta, datetime
 import jwt
-from src.user.domain.entities.user import User
 from src.admin.domain.entities.admin import Admin
 from src.config import CONFIG
 
@@ -21,7 +21,7 @@ def jwt_decode_handler(token: str) -> dict:
     return decoded
 
 
-def jwt_payload_handler(user: Union[Admin, User]) -> dict:
+def jwt_payload_handler(user: Union[Admin, GithubUser]) -> dict:
     payload = {}
     if isinstance(user, Admin):
         payload = {
@@ -34,13 +34,14 @@ def jwt_payload_handler(user: Union[Admin, User]) -> dict:
             "is_admin": True,
             "id": user.id,
         }
-    elif isinstance(user, User):
+    elif isinstance(user, GithubUser):
         payload = {
             "scope": "access_token",
-            "sub": user.github_id,
+            "sub": user.username,
             "iss": CONFIG.DOMAIN,
             "exp": int((datetime.utcnow() + timedelta(days=3)).timestamp()),
             "iat": int(datetime.utcnow().timestamp()),
+            "username": user.username,
             "is_admin": False,
             "id": user.id,
         }

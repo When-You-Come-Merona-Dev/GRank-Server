@@ -28,9 +28,8 @@ def init_router(app: FastAPI):
 
     from src.github_user.entrypoints.api import router as github_user_router
     from src.admin.entrypoints.api import router as admin_router
-    from src.user.entrypoints.api import router as user_router
 
-    for router in [github_user_router, admin_router, user_router]:
+    for router in [github_user_router, admin_router]:
         app.include_router(router)
 
 
