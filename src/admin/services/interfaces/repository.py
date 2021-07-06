@@ -2,13 +2,13 @@ import abc
 from src.admin.domain.entities.admin import Admin, AdminCertificationCode
 
 
-class AbstractAdminRepository:
+class AbstractRepository:
     @abc.abstractmethod
-    def create_admin(self, admin: Admin) -> None:
+    def add(self, admin: Admin) -> None:
         pass
 
     @abc.abstractmethod
-    def get_admin_by_username(self, username: str) -> Admin:
+    def get_by_username(self, username: str) -> Admin:
         pass
 
     @abc.abstractmethod

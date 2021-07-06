@@ -3,7 +3,7 @@ from src.admin.services.interfaces.repository import AbstractAdminRepository
 from src.admin.domain.entities.admin import Admin, AdminCertificationCode
 
 
-class AdminRepository(AbstractAdminRepository):
+class SQLAlchemyRepository(AbstractAdminRepository):
     def __init__(self, session: Session):
         self.session = session
 
