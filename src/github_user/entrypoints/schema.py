@@ -25,6 +25,10 @@ class GithubUserRenewAllRequestDto(BaseModel):
     pass
 
 
+class SNSGithubCallbackRequestDto(BaseModel):
+    code: str
+
+
 # Response
 class GithubUserCreateResponseDto(BaseModel):
     id: int
@@ -90,3 +94,7 @@ class GithubUserRenewAllResponseDto(BaseModel):
     groups: set
     created_at: str
     updated_at: str
+
+
+class SNSGithubCallbackResponseDto(BaseModel):
+    token: str
