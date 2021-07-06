@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import HTTPException
 from src.github_user.services.interfaces.repository import AbstractGithubUserRepository
-from src.github_user.services.interfaces.crawler import AbstractCrawler
+from src.github_user.services.interfaces.external_api import AbstractExternalAPIClient
 from src.github_user.entrypoints.schema import (
     GithubUserRenewAllRequestDto,
     GithubUserRenewAllResponseDto,
@@ -9,9 +9,9 @@ from src.github_user.entrypoints.schema import (
 
 
 class GithubUserRenewAllUseCase:
-    def __init__(self, repo: AbstractGithubUserRepository, crawler: AbstractCrawler):
+    def __init__(self, repo: AbstractGithubUserRepository, external_api: AbstractExternalAPIClient):
         self.repo = repo
-        self.crawler = crawler
+        self.external_api = external_api
 
     def execute(
         self, input_dto: GithubUserRenewAllRequestDto
@@ -21,8 +21,10 @@ class GithubUserRenewAllUseCase:
 
         renewed_github_users = []
         for github_user in github_users:
-            new_avatar_url = self.crawler.get_avatar_url_from_username(github_user.username)
-            new_commit_count = self.crawler.get_commit_count_from_username(github_user.username)
+            new_avatar_url = self.external_api.get_avatar_url_from_username(github_user.username)
+            new_commit_count = self.external_api.get_commit_count_from_username(
+                github_user.username
+            )
             github_user = self.repo.renew_avatar_url(github_user, new_avatar_url)
             renewed_github_user = self.repo.renew_commit_count(github_user, new_commit_count)
             renewed_github_users.append(

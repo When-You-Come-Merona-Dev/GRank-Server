@@ -1,6 +1,6 @@
 from datetime import datetime
 from sqlalchemy import Column, String, Integer, Boolean, DateTime, Table
-from sqlalchemy.orm import mapper, relationship, clear_mappers
+from sqlalchemy.orm import mapper, relationship
 from sqlalchemy.sql.schema import ForeignKey
 from src.infra.db.session import metadata
 from src.github_user.domain.entities.github_user import GithubUser
@@ -18,9 +18,13 @@ github_user = Table(
     "github_user",
     metadata,
     Column("id", Integer, primary_key=True, unique=True, autoincrement=True),
+    Column("github_id", String(length=256), nullable=False),
+    Column("password", String(length=256), nullable=False),
     Column("username", String(length=256), unique=True, nullable=False),
     Column("avatar_url", String(length=2048), nullable=False),
     Column("commit_count", Integer, default=0, nullable=False),
+    Column("grade", Integer, default=0, nullable=False),
+    Column("is_public", Boolean, default=False, nullable=False),
     Column("is_approved", Boolean, default=False, nullable=False),
     Column("created_at", DateTime, default=datetime.now),
     Column("updated_at", DateTime, default=datetime.now, onupdate=datetime.now),

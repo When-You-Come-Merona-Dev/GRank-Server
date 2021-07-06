@@ -13,6 +13,10 @@ class AbstractGithubUserRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def get_user_by_github_id(self, github_id: str) -> Union[GithubUser, None]:
+        pass
+
+    @abc.abstractmethod
     def list_github_user(
         self, filters: dict = {}, page: int = None, per_page: int = None, order_by_field: str = None
     ) -> List[GithubUser]:
@@ -20,6 +24,10 @@ class AbstractGithubUserRepository(abc.ABC):
 
     @abc.abstractmethod
     def approve_github_user(self, github_user: GithubUser) -> GithubUser:
+        pass
+
+    @abc.abstractmethod
+    def make_public_github_user(self, github_user: GithubUser) -> GithubUser:
         pass
 
     @abc.abstractmethod
