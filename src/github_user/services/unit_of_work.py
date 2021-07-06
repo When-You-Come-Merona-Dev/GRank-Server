@@ -1,13 +1,16 @@
 import abc
 from src.github_user.services.interfaces.repository import AbstractRepository
 from src.github_user.adapters.repository import SQLAlchemyRepository
-from src.infra.db.session import get_session
+from src.infra.db.session import sqlalchemy_session_factory
 
-DEFAULT_SESSION_FACTIRY = get_session
+DEFAULT_SESSION_FACTIRY = sqlalchemy_session_factory
 
 
 class AbstractUnitOfWork(abc.ABC):
     github_users: AbstractRepository
+
+    def __enter__(self):
+        return self
 
     def __exit__(self, *args):
         self.rollback()
