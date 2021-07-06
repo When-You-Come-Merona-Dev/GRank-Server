@@ -9,6 +9,8 @@ class GithubUser:
         self.username = username
         self.avatar_url = avatar_url
         self.commit_count = 0
+        self.grade = 0
+        self.is_public = False
         self.is_approved = False
         self._groups = set()
         self.created_at = None
