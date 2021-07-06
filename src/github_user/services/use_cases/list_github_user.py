@@ -10,6 +10,7 @@ class GithubUserListUserCase:
 
     def execute(self, input_dto: GithubUserListResponseDto) -> List[GithubUserListRequestDto]:
         input_dto.filters["is_approved"] = True
+        input_dto.filters["is_public"] = True
 
         github_users = self.repo.list_github_user(
             filters=input_dto.filters,
