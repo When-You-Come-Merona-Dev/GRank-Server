@@ -47,6 +47,8 @@ class GithubUser:
             "username": self.username,
             "avatar_url": self.avatar_url,
             "commit_count": self.commit_count,
+            "grade": self.grade,
+            "is_public": self.is_public,
             "is_approved": self.is_approved,
             "groups": self.groups,
             "created_at": self.created_at.strftime("%Y-%m-%dT%H:%M:%S"),

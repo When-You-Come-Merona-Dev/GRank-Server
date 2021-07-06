@@ -39,6 +39,8 @@ class GithubUserCreateResponseDto(BaseModel):
     username: str
     avatar_url: str
     commit_count: int
+    grade: int
+    is_public: bool
     is_approved: bool
     groups: set
     created_at: str
@@ -50,6 +52,8 @@ class GithubUserRetrieveResponseDto(BaseModel):
     username: str
     avatar_url: str
     commit_count: int
+    grade: int
+    is_public: bool
     is_approved: bool
     groups: set
     created_at: str
@@ -61,6 +65,8 @@ class GithubUserListResponseDto(BaseModel):
     username: str
     avatar_url: str
     commit_count: int
+    grade: int
+    is_public: bool
     is_approved: bool
     groups: set
     created_at: str
@@ -72,6 +78,8 @@ class GithubUserApproveResponseDto(BaseModel):
     username: str
     avatar_url: str
     commit_count: int
+    grade: int
+    is_public: bool
     is_approved: bool
     groups: set
     created_at: str
@@ -83,6 +91,8 @@ class GithubUserRenewOneResponseDto(BaseModel):
     username: str
     avatar_url: str
     commit_count: int
+    grade: int
+    is_public: bool
     is_approved: bool
     groups: set
     created_at: str
@@ -94,6 +104,8 @@ class GithubUserRenewAllResponseDto(BaseModel):
     username: str
     avatar_url: str
     commit_count: int
+    grade: int
+    is_public: bool
     is_approved: bool
     groups: set
     created_at: str
@@ -105,6 +117,8 @@ class GithubUserMakePublicResponseDto(BaseModel):
     username: str
     avatar_url: str
     commit_count: int
+    grade: int
+    is_public: bool
     is_approved: bool
     groups: set
     created_at: str
