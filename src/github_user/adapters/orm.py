@@ -18,6 +18,8 @@ github_user = Table(
     "github_user",
     metadata,
     Column("id", Integer, primary_key=True, unique=True, autoincrement=True),
+    Column("github_id", String(length=256), nullable=False),
+    Column("password", String(length=256), nullable=False),
     Column("username", String(length=256), unique=True, nullable=False),
     Column("avatar_url", String(length=2048), nullable=False),
     Column("commit_count", Integer, default=0, nullable=False),
