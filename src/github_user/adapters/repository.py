@@ -33,7 +33,7 @@ class GithubUserRepository(AbstractGithubUserRepository):
 
     def get_user_by_github_id(self, github_id: str) -> Union[GithubUser, None]:
         github_user = (
-            self.session.query(GithubUser).filter(GithubUser.github_id == github_id).first()
+            self.session.query(GithubUser).filter(GithubUser.github_id == str(github_id)).first()
         )
         return github_user
 
@@ -64,6 +64,16 @@ class GithubUserRepository(AbstractGithubUserRepository):
     def approve_github_user(self, github_user: GithubUser) -> GithubUser:
         try:
             github_user.is_approved = True
+            self.session.commit()
+        except:
+            self.session.rollback()
+            raise
+
+        return github_user
+
+    def make_public_github_user(self, github_user: GithubUser) -> GithubUser:
+        try:
+            github_user.is_public = True
             self.session.commit()
         except:
             self.session.rollback()
