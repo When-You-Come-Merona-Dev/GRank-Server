@@ -29,10 +29,10 @@ def add_admin(input_dto: AdminCreateRequestDto, uow: AbstractUnitOfWork) -> Admi
 
         uow.admins.add(admin)
         uow.admins.delete_admin_certification_code(admin_certification_code)
-
+        username = admin.username
         uow.commit()
 
-    return AdminCreateResponseDto(**admin.to_dict())
+    return AdminCreateResponseDto(username=username)
 
 
 def admin_login(input_dto: AdminLoginRequestDto, uow: AbstractUnitOfWork) -> AdminLoginResponseDto:
