@@ -39,6 +39,9 @@ class GithubUser:
     def approve(self):
         self.is_approved = True
 
+    def make_public(self):
+        self.is_public = True
+
     def to_dict(self):
         return {
             "id": self.id,

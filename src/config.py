@@ -58,7 +58,7 @@ class TestConfig(Config):
     TEST_MODE: bool = True
 
 
-def load_config():
+def load_config() -> Config:
     config = dict(product=ProductConfig, develop=DevelopConfig, test=TestConfig)
     return config[environ.get("API_ENV", "develop")]()
 

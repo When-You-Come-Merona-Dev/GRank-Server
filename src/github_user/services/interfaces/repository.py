@@ -3,31 +3,31 @@ from typing import Union, List
 from src.github_user.domain.entities.github_user import GithubUser
 
 
-class AbstractGithubUserRepository(abc.ABC):
+class AbstractRepository(abc.ABC):
     @abc.abstractmethod
-    def create_github_user(self, github_user: GithubUser) -> None:
+    def add(self, github_user: GithubUser) -> None:
         pass
 
     @abc.abstractmethod
-    def get_github_user_by_username(self, username: str) -> Union[GithubUser, None]:
+    def get_by_username(self, username: str) -> Union[GithubUser, None]:
         pass
 
     @abc.abstractmethod
-    def get_user_by_github_id(self, github_id: str) -> Union[GithubUser, None]:
+    def get_by_github_id(self, github_id: str) -> Union[GithubUser, None]:
         pass
 
     @abc.abstractmethod
-    def list_github_user(
+    def list(
         self, filters: dict = {}, page: int = None, per_page: int = None, order_by_field: str = None
     ) -> List[GithubUser]:
         pass
 
     @abc.abstractmethod
-    def approve_github_user(self, github_user: GithubUser) -> GithubUser:
+    def approve(self, github_user: GithubUser) -> GithubUser:
         pass
 
     @abc.abstractmethod
-    def make_public_github_user(self, github_user: GithubUser) -> GithubUser:
+    def make_public(self, github_user: GithubUser) -> GithubUser:
         pass
 
     @abc.abstractmethod

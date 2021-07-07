@@ -5,14 +5,6 @@ from src.config import CONFIG
 
 engine = create_engine(CONFIG.DATABASE_URL)
 
-LocalSession = scoped_session(sessionmaker(bind=engine))
+sqlalchemy_session_factory = sessionmaker(bind=engine)
 
 metadata = MetaData()
-
-
-def get_session():
-    session = LocalSession()
-    try:
-        yield session
-    finally:
-        session.close()

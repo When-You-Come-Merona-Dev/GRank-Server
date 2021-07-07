@@ -1,7 +1,7 @@
 from typing import Union, List
 from sqlalchemy.orm import Session
 from src.github_user.domain.entities.github_user import GithubUser
-from src.github_user.services.interfaces.repository import AbstractGithubUserRepository
+from src.github_user.services.interfaces.repository import AbstractRepository
 
 
 def get_order_by_field_by_str(model_cls, order_by_field: str):
@@ -15,29 +15,20 @@ def get_order_by_field_by_str(model_cls, order_by_field: str):
     return field
 
 
-class GithubUserRepository(AbstractGithubUserRepository):
+class SQLAlchemyRepository(AbstractRepository):
     def __init__(self, session: Session):
         self.session = session
 
-    def create_github_user(self, github_user: GithubUser) -> None:
-        try:
-            self.session.add(github_user)
-            self.session.commit()
-        except:
-            self.session.rollback()
-            raise
+    def add(self, github_user: GithubUser) -> None:
+        self.session.add(github_user)
 
-    def get_github_user_by_username(self, username: str) -> Union[GithubUser, None]:
-        github_user = self.session.query(GithubUser).filter(GithubUser.username == username).first()
-        return github_user
+    def get_by_username(self, username: str) -> Union[GithubUser, None]:
+        return self.session.query(GithubUser).filter(GithubUser.username == username).first()
 
-    def get_user_by_github_id(self, github_id: str) -> Union[GithubUser, None]:
-        github_user = (
-            self.session.query(GithubUser).filter(GithubUser.github_id == str(github_id)).first()
-        )
-        return github_user
+    def get_by_github_id(self, github_id: str) -> Union[GithubUser, None]:
+        return self.session.query(GithubUser).filter(GithubUser.github_id == str(github_id)).first()
 
-    def list_github_user(
+    def list(
         self, filters: dict = {}, page: int = None, per_page: int = None, order_by_field: str = None
     ) -> List[GithubUser]:
 
@@ -61,42 +52,18 @@ class GithubUserRepository(AbstractGithubUserRepository):
         )
         return github_users
 
-    def approve_github_user(self, github_user: GithubUser) -> GithubUser:
-        try:
-            github_user.is_approved = True
-            self.session.commit()
-        except:
-            self.session.rollback()
-            raise
-
+    def approve(self, github_user: GithubUser) -> GithubUser:
+        github_user.is_approved = True
         return github_user
 
-    def make_public_github_user(self, github_user: GithubUser) -> GithubUser:
-        try:
-            github_user.is_public = True
-            self.session.commit()
-        except:
-            self.session.rollback()
-            raise
-
+    def make_public(self, github_user: GithubUser) -> GithubUser:
+        github_user.is_public = True
         return github_user
 
     def renew_avatar_url(self, github_user: GithubUser, avatar_url: str) -> GithubUser:
-        try:
-            github_user.avatar_url = avatar_url
-            self.session.commit()
-        except:
-            self.session.rollback()
-            raise
-
+        github_user.avatar_url = avatar_url
         return github_user
 
     def renew_commit_count(self, github_user: GithubUser, commit_count: int) -> GithubUser:
-        try:
-            github_user.commit_count = commit_count
-            self.session.commit()
-        except:
-            self.session.rollback()
-            raise
-
+        github_user.commit_count = commit_count
         return github_user
