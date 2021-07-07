@@ -14,9 +14,9 @@ router = APIRouter()
 
 @router.post("/admin", response_model=AdminCreateResponseDto, status_code=status.HTTP_201_CREATED)
 def add_admin(input_dto: AdminCreateRequestDto) -> AdminCreateResponseDto:
-    return handlers.add_admin(input_dto=input_dto, uow=SQLAlchemyUnitOfWork)
+    return handlers.add_admin(input_dto=input_dto, uow=SQLAlchemyUnitOfWork())
 
 
 @router.post("/admin/login", response_model=AdminLoginResponseDto, status_code=status.HTTP_200_OK)
 def login_admin(input_dto: AdminLoginRequestDto) -> AdminLoginResponseDto:
-    return handlers.admin_login(input_dto=input_dto, uow=SQLAlchemyUnitOfWork)
+    return handlers.admin_login(input_dto=input_dto, uow=SQLAlchemyUnitOfWork())

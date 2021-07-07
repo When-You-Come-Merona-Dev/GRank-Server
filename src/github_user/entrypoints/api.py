@@ -62,7 +62,7 @@ def make_public_github_user(
 
     input_dto = GithubUserMakePublicRequestDto(username=username)
 
-    return handlers.make_public_github_user(input_dto, SQLAlchemyUnitOfWork)
+    return handlers.make_public_github_user(input_dto, SQLAlchemyUnitOfWork())
 
 
 @router.patch(
@@ -79,7 +79,7 @@ def approve_github_user(
 
     input_dto = GithubUserApproveRequestDto(username=username)
 
-    return handlers.approve_github_user(input_dto=input_dto, uow=SQLAlchemyUnitOfWork)
+    return handlers.approve_github_user(input_dto=input_dto, uow=SQLAlchemyUnitOfWork())
 
 
 @router.patch(
@@ -96,7 +96,7 @@ def renew_one_github_user(
 
     input_dto = GithubUserRenewOneRequestDto(username=username)
 
-    return handlers.renew_one_github_user(input_dto=input_dto, uow=SQLAlchemyUnitOfWork)
+    return handlers.renew_one_github_user(input_dto=input_dto, uow=SQLAlchemyUnitOfWork())
 
 
 @router.patch(
@@ -112,7 +112,7 @@ def renew_all_github_user(
 
     input_dto = GithubUserRenewAllRequestDto()
 
-    return handlers.renew_all_github_user(input_dto=input_dto, uow=SQLAlchemyUnitOfWork)
+    return handlers.renew_all_github_user(input_dto=input_dto, uow=SQLAlchemyUnitOfWork())
 
 
 @router.get("/sns/github")
@@ -130,4 +130,4 @@ def github_callback(
 ) -> SNSGithubCallbackResponseDto:
     input_dto = SNSGithubCallbackRequestDto(code=code)
 
-    return handlers.github_callback(input_dto=input_dto, uow=SQLAlchemyUnitOfWork)
+    return handlers.github_callback(input_dto=input_dto, uow=SQLAlchemyUnitOfWork())
