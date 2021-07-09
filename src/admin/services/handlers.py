@@ -9,6 +9,11 @@ from src.admin.entrypoints.schema import (
 from src.admin.domain.entities.admin import Admin
 from src.utils.hasher import hash_password, check_password
 from src.utils.token_handlers import jwt_payload_handler, jwt_encode_handler
+from src.utils.exceptions import (
+    InvalidAdminCertificationCodeException,
+    AlreadyExistAdminException,
+    InvalidLoginCredentialsException,
+)
 
 
 def add_admin(input_dto: AdminCreateRequestDto, uow: AbstractUnitOfWork) -> AdminCreateResponseDto:
@@ -17,12 +22,12 @@ def add_admin(input_dto: AdminCreateRequestDto, uow: AbstractUnitOfWork) -> Admi
             code=input_dto.certification_code
         )
         if not admin_certification_code:
-            raise HTTPException(status_code=400, detail="certification code is not available")
+            raise InvalidAdminCertificationCodeException()
 
         exists_admin = uow.admins.get_by_username(input_dto.username)
 
         if exists_admin:
-            raise HTTPException(status_code=400, detail="already exists admin username")
+            raise AlreadyExistAdminException()
 
         hashed_password = hash_password(input_dto.password)
         admin = Admin(username=input_dto.username, password=hashed_password)
@@ -39,10 +44,10 @@ def admin_login(input_dto: AdminLoginRequestDto, uow: AbstractUnitOfWork) -> Adm
     with uow:
         admin = uow.admins.get_by_username(username=input_dto.username)
         if not admin:
-            raise HTTPException(status_code=400, detail="Can't login with recieved credentials")
+            raise InvalidLoginCredentialsException()
 
         if not check_password(input_dto.password, admin.password):
-            raise HTTPException(status_code=400, detail="Can't login with recieved credentials")
+            raise InvalidLoginCredentialsException()
 
         payload = jwt_payload_handler(user=admin)
         token = jwt_encode_handler(payload=payload)

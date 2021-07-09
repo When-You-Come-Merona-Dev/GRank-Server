@@ -17,6 +17,7 @@ from src.github_user.entrypoints.schema import (
 from src.github_user.domain.entities.github_user import GithubUser
 from src.utils.hasher import hash_password, check_password
 from src.utils.token_handlers import jwt_encode_handler, jwt_payload_handler
+from src.utils.exceptions import InvalidLoginCredentialsException, NotFoundGithubUserException
 
 
 def approve_github_user(
@@ -25,7 +26,7 @@ def approve_github_user(
     with uow:
         github_user = uow.github_users.get_by_username(input_dto.username)
         if not github_user:
-            raise HTTPException(status_code=404, detail="Can't find github user")
+            raise NotFoundGithubUserException()
         approved_github_user = uow.github_users.approve(github_user)
 
         uow.commit()
@@ -39,7 +40,7 @@ def make_public_github_user(
     with uow:
         github_user = uow.github_users.get_by_username(username=input_dto.username)
         if not github_user:
-            raise HTTPException(status_code=404, detail="Can't find github user")
+            raise NotFoundGithubUserException()
 
         github_user.make_public()
 
@@ -77,7 +78,7 @@ def renew_one_github_user(
     with uow:
         github_user = uow.github_users.get_by_username(username=input_dto.username)
         if not github_user:
-            raise HTTPException(status_code=404, detail="Can't find github user")
+            raise NotFoundGithubUserException()
 
         new_avatar_url = external_api.get_avatar_url_from_username(input_dto.username)
         new_commit_count = external_api.get_commit_count_from_username(input_dto.username)
@@ -104,7 +105,7 @@ def github_callback(
             if check_password(user_info["node_id"], exists_user.password):
                 user_instance = exists_user
             else:
-                raise HTTPException(status_code=400, detail="Can't login with recieved credentials")
+                raise InvalidLoginCredentialsException()
         else:
             hashed_password = hash_password(user_info["node_id"])
             user_instance = GithubUser(
