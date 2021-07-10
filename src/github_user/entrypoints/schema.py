@@ -25,8 +25,9 @@ class GithubUserRenewAllRequestDto(BaseModel):
     pass
 
 
-class GithubUserMakePublicRequestDto(BaseModel):
-    username: str
+class GithubUserPartialUpdateRequestDto(BaseModel):
+    grade: Optional[int]
+    is_public: Optional[bool]
 
 
 class SNSGithubCallbackRequestDto(BaseModel):
@@ -112,7 +113,7 @@ class GithubUserRenewAllResponseDto(BaseModel):
     updated_at: str
 
 
-class GithubUserMakePublicResponseDto(BaseModel):
+class GithubUserPartialUpdateResponseDto(BaseModel):
     id: int
     username: str
     avatar_url: str
