@@ -9,8 +9,8 @@ from src.github_user.entrypoints.schema import (
     GithubUserListRequestDto,
     GithubUserApproveResponseDto,
     GithubUserApproveRequestDto,
-    GithubUserMakePublicResponseDto,
-    GithubUserMakePublicRequestDto,
+    GithubUserPartialUpdateRequestDto,
+    GithubUserPartialUpdateResponseDto,
     GithubUserRenewAllRequestDto,
     GithubUserRenewAllResponseDto,
     GithubUserRenewOneRequestDto,
@@ -49,20 +49,24 @@ def list_github_user(
 
 
 @router.patch(
-    "/github-user/{username}/make-public",
-    response_model=GithubUserMakePublicResponseDto,
+    "/github-user/{username}",
+    response_model=GithubUserPartialUpdateResponseDto,
     status_code=status.HTTP_200_OK,
 )
-def make_public_github_user(
+def partial_update_github_user(
     request: Request,
     username: str,
+    input_dto: GithubUserPartialUpdateRequestDto,
     credentials: HTTPAuthorizationCredentials = Security(security),
-) -> GithubUserMakePublicResponseDto:
+) -> GithubUserPartialUpdateResponseDto:
     check_permissions(request=request, permissions=[IsOwnerOrAdmin])
 
-    input_dto = GithubUserMakePublicRequestDto(username=username)
-
-    return handlers.make_public_github_user(input_dto, SQLAlchemyUnitOfWork())
+    return handlers.partial_update_github_user(
+        username=username,
+        grade=input_dto.grade,
+        is_public=input_dto.is_public,
+        uow=SQLAlchemyUnitOfWork(),
+    )
 
 
 @router.patch(
