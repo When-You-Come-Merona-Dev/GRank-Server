@@ -1,12 +1,12 @@
-from typing import List
+from typing import List, Optional
 from fastapi import HTTPException
 from src.github_user.services.unit_of_work import AbstractUnitOfWork
 from src.github_user.adapters import external_api
 from src.github_user.entrypoints.schema import (
     GithubUserApproveRequestDto,
     GithubUserApproveResponseDto,
-    GithubUserMakePublicResponseDto,
-    GithubUserMakePublicRequestDto,
+    GithubUserPartialUpdateRequestDto,
+    GithubUserPartialUpdateResponseDto,
     GithubUserRenewAllRequestDto,
     GithubUserRenewAllResponseDto,
     GithubUserRenewOneRequestDto,
@@ -31,22 +31,30 @@ def approve_github_user(
 
         uow.commit()
 
-    return GithubUserApproveResponseDto(**approved_github_user.to_dict())
+        approved_github_user_dict = approved_github_user.to_dict()
+
+    return GithubUserApproveResponseDto(**approved_github_user_dict)
 
 
-def make_public_github_user(
-    input_dto: GithubUserMakePublicRequestDto, uow: AbstractUnitOfWork
-) -> GithubUserMakePublicResponseDto:
+def partial_update_github_user(
+    *, username: str, grade: Optional[int], is_public: Optional[bool], uow: AbstractUnitOfWork
+) -> GithubUserPartialUpdateResponseDto:
     with uow:
-        github_user = uow.github_users.get_by_username(username=input_dto.username)
+        github_user = uow.github_users.get_by_username(username)
         if not github_user:
             raise NotFoundGithubUserException()
 
-        github_user.make_public()
+        if grade is not None:
+            github_user.grade = grade
+
+        if is_public is not None:
+            github_user.is_public = is_public
 
         uow.commit()
 
-    return GithubUserMakePublicResponseDto(**github_user.to_dict())
+        github_user_dict = github_user.to_dict()
+
+    return GithubUserPartialUpdateResponseDto(**github_user_dict)
 
 
 def renew_all_github_user(
@@ -88,7 +96,9 @@ def renew_one_github_user(
 
         uow.commit()
 
-    return GithubUserRenewOneResponseDto(**renewed_github_user.to_dict())
+        renewed_github_user_dict = renewed_github_user.to_dict()
+
+    return GithubUserRenewOneResponseDto(**renewed_github_user_dict)
 
 
 def github_callback(
