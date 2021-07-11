@@ -6,6 +6,8 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from src.github_user.entrypoints.parsers.query_parser import QueryParameterParser
 from src.github_user.entrypoints.schema import (
     GithubUserListResponseDto,
+    GithubUserRetrieveResponseDto,
+    GithubUserRetrieveRequestDto,
     GithubUserListRequestDto,
     GithubUserApproveResponseDto,
     GithubUserApproveRequestDto,
@@ -46,6 +48,17 @@ def list_github_user(
     )
 
     return readers.list_github_user(input_dto=input_dto, uow=SQLAlchemyUnitOfWork())
+
+
+@router.get(
+    "/github-user/{username}",
+    response_model=GithubUserRetrieveResponseDto,
+    status_code=status.HTTP_200_OK,
+)
+def retrieve_github_user(
+    username: str,
+) -> GithubUserRetrieveResponseDto:
+    return readers.retrieve_github_user(username=username, uow=SQLAlchemyUnitOfWork())
 
 
 @router.patch(
