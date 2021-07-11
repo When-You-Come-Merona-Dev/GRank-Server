@@ -6,6 +6,10 @@ class GithubUserCreateRequestDto(BaseModel):
     username: str
 
 
+class GithubUserRetrieveRequestDto(BaseModel):
+    username: str
+
+
 class GithubUserListRequestDto(BaseModel):
     filters: Optional[dict]
     page: Optional[int]
