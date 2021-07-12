@@ -34,6 +34,10 @@ class GithubUserPartialUpdateRequestDto(BaseModel):
     is_public: Optional[bool]
 
 
+class GithubUserDeleteRequestDto(BaseModel):
+    username: str
+
+
 class SNSGithubCallbackRequestDto(BaseModel):
     code: str
 
@@ -128,6 +132,10 @@ class GithubUserPartialUpdateResponseDto(BaseModel):
     groups: set
     created_at: str
     updated_at: str
+
+
+class GithubUserDeleteResponseDto(BaseModel):
+    message: str
 
 
 class SNSGithubCallbackResponseDto(BaseModel):
