@@ -4,5 +4,7 @@ RUN apt-get update && apt-get -y install \
 
 WORKDIR /app
 ADD ./requirements.txt /app/
-RUN chmod -R 700 scripts/
+ADD scripts /app/scripts
+RUN chmod +x scripts/*
+
 RUN pip install -r requirements.txt
