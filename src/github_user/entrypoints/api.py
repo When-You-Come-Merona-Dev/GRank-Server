@@ -23,7 +23,8 @@ from src.github_user.entrypoints.schema import (
 )
 from src.github_user.services.unit_of_work import SQLAlchemyUnitOfWork
 from src.github_user.services import handlers, readers
-from src.utils.permissions import IsAdmin, IsOwnerOrAdmin, check_permissions
+from src.utils.permissions import IsAdmin, IsAuthenticated, IsOwnerOrAdmin, check_permissions
+from src.utils.exceptions import NotFoundGithubUserException
 from src.config import CONFIG
 
 router = APIRouter()
@@ -55,6 +56,23 @@ def list_github_user(
 
 
 @router.get(
+    "/github-users/me",
+    response_model=GithubUserRetrieveResponseDto,
+    status_code=status.HTTP_200_OK,
+    tags=["github-users"],
+)
+def retrieve_token_owner_github_user(
+    request: Request,
+    credentials: HTTPAuthorizationCredentials = Security(security),
+) -> GithubUserRetrieveResponseDto:
+    check_permissions(request=request, permissions=[IsAuthenticated])
+    username = getattr(request.user, "username", None)
+    if not username:
+        raise NotFoundGithubUserException()
+    return readers.retrieve_github_user(username=username, uow=SQLAlchemyUnitOfWork())
+
+
+@router.get(
     "/github-users/{username}",
     response_model=GithubUserRetrieveResponseDto,
     status_code=status.HTTP_200_OK,
@@ -73,8 +91,10 @@ def retrieve_github_user(
     tags=["github-users"],
 )
 def delete_github_user(
+    request: Request,
     username: str,
 ) -> GithubUserDeleteResponseDto:
+    check_permissions(request=request, permissions=[IsOwnerOrAdmin])
     return handlers.delete_github_user(username=username, uow=SQLAlchemyUnitOfWork())
 
 
