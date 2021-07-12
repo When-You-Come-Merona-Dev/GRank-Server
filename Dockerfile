@@ -4,6 +4,7 @@ RUN apt-get update && apt-get -y install \
 
 WORKDIR /app
 ADD ./requirements.txt /app/
-RUN chmod -R 700 scripts/
+ADD ./scripts /app/scripts
+RUN chmod -R 755 scripts/
 RUN pip install -r requirements.txt
 EXPOSE 3052

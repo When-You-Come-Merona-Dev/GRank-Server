@@ -14,4 +14,4 @@ services:
       - prod.env
     restart: always
     ports:
-      - "3052:3052"
+      - "80:3052"
