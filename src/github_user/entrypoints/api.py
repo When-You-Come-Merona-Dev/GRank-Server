@@ -31,7 +31,10 @@ security = HTTPBearer()
 
 
 @router.get(
-    "/github-user", response_model=List[GithubUserListResponseDto], status_code=status.HTTP_200_OK
+    "/github-users",
+    response_model=List[GithubUserListResponseDto],
+    status_code=status.HTTP_200_OK,
+    tags=["github-users"],
 )
 def list_github_user(
     request: Request,
@@ -52,9 +55,10 @@ def list_github_user(
 
 
 @router.get(
-    "/github-user/{username}",
+    "/github-users/{username}",
     response_model=GithubUserRetrieveResponseDto,
     status_code=status.HTTP_200_OK,
+    tags=["github-users"],
 )
 def retrieve_github_user(
     username: str,
@@ -63,9 +67,10 @@ def retrieve_github_user(
 
 
 @router.delete(
-    "/github-user/{username}",
+    "/github-users/{username}",
     response_model=GithubUserDeleteResponseDto,
-    status_code=status.HTTP_204_NO_CONTENT,
+    status_code=status.HTTP_200_OK,
+    tags=["github-users"],
 )
 def delete_github_user(
     username: str,
@@ -74,9 +79,10 @@ def delete_github_user(
 
 
 @router.patch(
-    "/github-user/{username}",
+    "/github-users/{username}",
     response_model=GithubUserPartialUpdateResponseDto,
     status_code=status.HTTP_200_OK,
+    tags=["github-users"],
 )
 def partial_update_github_user(
     request: Request,
@@ -95,9 +101,10 @@ def partial_update_github_user(
 
 
 @router.patch(
-    "/github-user/{username}/approve",
+    "/github-users/{username}/approve",
     response_model=GithubUserApproveResponseDto,
     status_code=status.HTTP_200_OK,
+    tags=["github-users"],
 )
 def approve_github_user(
     request: Request,
@@ -112,9 +119,10 @@ def approve_github_user(
 
 
 @router.patch(
-    "/github-user/{username}/renew",
+    "/github-users/{username}/renew",
     response_model=GithubUserRenewOneResponseDto,
     status_code=status.HTTP_200_OK,
+    tags=["github-users"],
 )
 def renew_one_github_user(
     request: Request,
@@ -129,9 +137,10 @@ def renew_one_github_user(
 
 
 @router.patch(
-    "/github-user/renew-all",
+    "/github-users/renew-all",
     response_model=List[GithubUserRenewAllResponseDto],
     status_code=status.HTTP_200_OK,
+    tags=["github-users"],
 )
 def renew_all_github_user(
     request: Request,
@@ -144,7 +153,7 @@ def renew_all_github_user(
     return handlers.renew_all_github_user(input_dto=input_dto, uow=SQLAlchemyUnitOfWork())
 
 
-@router.get("/sns/github")
+@router.get("/sns/github", tags=["sns"])
 def get_github_login_url():
     url = "https://github.com/login/oauth/authorize?client_id={0}&redirect_uri={1}".format(
         CONFIG.GITHUB_API_CLIENT_ID, CONFIG.GITHUB_OAUTH_REDIRECT_URI
@@ -153,7 +162,7 @@ def get_github_login_url():
     return {"login_url": url}
 
 
-@router.get("/sns/github/callback")
+@router.get("/sns/github/callback", tags=["sns"])
 def github_callback(
     code: str,
 ) -> SNSGithubCallbackResponseDto:

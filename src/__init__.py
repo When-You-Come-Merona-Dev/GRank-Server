@@ -44,9 +44,23 @@ def init_router(app: FastAPI):
         app.include_router(router)
 
 
+def init_docs(app: FastAPI):
+    tags_metadata = [
+        {
+            "name": "github-users",
+            "description": "github user와 관련된 api 입니다",
+        },
+        {"name": "admin", "description": "admin과 관련된 api 입니다."},
+        {"name": "sns", "description": "소셜 로그인과 관련된 api 입니다."},
+    ]
+
+    app.openapi_tags = tags_metadata
+
+
 def create_app() -> FastAPI:
     app = FastAPI(docs_url=None if CONFIG.API_ENV == "production" else "/docs")
     init_router(app)
     init_middleware(app)
     init_orm()
+    init_docs(app)
     return app
