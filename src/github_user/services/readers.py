@@ -1,5 +1,18 @@
 from src.github_user.services.unit_of_work import AbstractUnitOfWork
-from src.github_user.entrypoints.schema import GithubUserListRequestDto, GithubUserListResponseDto
+from src.github_user.entrypoints.schema import (
+    GithubUserRetrieveResponseDto,
+    GithubUserListRequestDto,
+    GithubUserListResponseDto,
+)
+
+
+def retrieve_github_user(username: str, uow: AbstractUnitOfWork) -> GithubUserRetrieveResponseDto:
+    with uow:
+        github_user = uow.github_users.get_by_username(username)
+
+        github_user_dict = github_user.to_dict()
+
+    return GithubUserRetrieveResponseDto(**github_user_dict)
 
 
 def list_github_user(

@@ -19,9 +19,11 @@ class SQLAlchemyRepository(AbstractRepository):
     def __init__(self, session: Session):
         self.session = session
 
+    # ===== CREATE =====
     def add(self, github_user: GithubUser) -> None:
         self.session.add(github_user)
 
+    # ===== READ =====
     def get_by_username(self, username: str) -> Union[GithubUser, None]:
         return self.session.query(GithubUser).filter(GithubUser.username == username).first()
 
@@ -52,6 +54,7 @@ class SQLAlchemyRepository(AbstractRepository):
         )
         return github_users
 
+    # ===== UPDATE =====
     def approve(self, github_user: GithubUser) -> GithubUser:
         github_user.is_approved = True
         return github_user
@@ -67,3 +70,8 @@ class SQLAlchemyRepository(AbstractRepository):
     def renew_commit_count(self, github_user: GithubUser, commit_count: int) -> GithubUser:
         github_user.commit_count = commit_count
         return github_user
+
+    # ===== DELETE =====
+    def delete(self, github_user: GithubUser) -> None:
+        self.session.delete(github_user)
+        return

@@ -6,6 +6,10 @@ class GithubUserCreateRequestDto(BaseModel):
     username: str
 
 
+class GithubUserRetrieveRequestDto(BaseModel):
+    username: str
+
+
 class GithubUserListRequestDto(BaseModel):
     filters: Optional[dict]
     page: Optional[int]
@@ -28,6 +32,10 @@ class GithubUserRenewAllRequestDto(BaseModel):
 class GithubUserPartialUpdateRequestDto(BaseModel):
     grade: Optional[int]
     is_public: Optional[bool]
+
+
+class GithubUserDeleteRequestDto(BaseModel):
+    username: str
 
 
 class SNSGithubCallbackRequestDto(BaseModel):
@@ -124,6 +132,10 @@ class GithubUserPartialUpdateResponseDto(BaseModel):
     groups: set
     created_at: str
     updated_at: str
+
+
+class GithubUserDeleteResponseDto(BaseModel):
+    detail: str
 
 
 class SNSGithubCallbackResponseDto(BaseModel):
