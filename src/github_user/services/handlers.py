@@ -110,7 +110,7 @@ def delete_github_user(username: str, uow: AbstractUnitOfWork) -> GithubUserDele
         uow.github_users.delete(github_user)
         uow.commit()
 
-    return GithubUserDeleteResponseDto(message="deleted successfully")
+    return GithubUserDeleteResponseDto(detail="deleted successfully")
 
 
 def github_callback(

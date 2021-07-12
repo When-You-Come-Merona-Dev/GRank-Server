@@ -135,7 +135,7 @@ class GithubUserPartialUpdateResponseDto(BaseModel):
 
 
 class GithubUserDeleteResponseDto(BaseModel):
-    message: str
+    detail: str
 
 
 class SNSGithubCallbackResponseDto(BaseModel):
