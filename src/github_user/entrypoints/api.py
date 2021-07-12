@@ -5,6 +5,7 @@ from fastapi import APIRouter, Request, Security
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from src.github_user.entrypoints.parsers.query_parser import QueryParameterParser
 from src.github_user.entrypoints.schema import (
+    GithubUserDeleteResponseDto,
     GithubUserListResponseDto,
     GithubUserRetrieveResponseDto,
     GithubUserRetrieveRequestDto,
@@ -59,6 +60,17 @@ def retrieve_github_user(
     username: str,
 ) -> GithubUserRetrieveResponseDto:
     return readers.retrieve_github_user(username=username, uow=SQLAlchemyUnitOfWork())
+
+
+@router.delete(
+    "/github-user/{username}",
+    response_model=GithubUserDeleteResponseDto,
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+def delete_github_user(
+    username: str,
+) -> GithubUserDeleteResponseDto:
+    return handlers.delete_github_user(username=username, uow=SQLAlchemyUnitOfWork())
 
 
 @router.patch(
