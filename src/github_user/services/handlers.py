@@ -1,5 +1,4 @@
 from typing import List, Optional
-from fastapi import HTTPException
 from src.github_user.services.unit_of_work import AbstractUnitOfWork
 from src.github_user.adapters import external_api
 from src.github_user.entrypoints.schema import (
@@ -11,6 +10,7 @@ from src.github_user.entrypoints.schema import (
     GithubUserRenewAllResponseDto,
     GithubUserRenewOneRequestDto,
     GithubUserRenewOneResponseDto,
+    GithubUserDeleteResponseDto,
     SNSGithubCallbackRequestDto,
     SNSGithubCallbackResponseDto,
 )
@@ -99,6 +99,18 @@ def renew_one_github_user(
         renewed_github_user_dict = renewed_github_user.to_dict()
 
     return GithubUserRenewOneResponseDto(**renewed_github_user_dict)
+
+
+def delete_github_user(username: str, uow: AbstractUnitOfWork) -> GithubUserDeleteResponseDto:
+    with uow:
+        github_user = uow.github_users.get_by_username(username)
+        if not github_user:
+            raise NotFoundGithubUserException()
+
+        uow.github_users.delete(github_user)
+        uow.commit()
+
+    return GithubUserDeleteResponseDto(message="deleted successfully")
 
 
 def github_callback(
