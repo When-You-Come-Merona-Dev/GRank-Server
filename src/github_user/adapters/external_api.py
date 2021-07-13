@@ -31,7 +31,7 @@ def get_avatar_url_from_username(username: str) -> str:
             status_code=status.HTTP_403_FORBIDDEN,
             detail="잠시 후에 시도해주세요, Github API가 1시간당 받을 수 있는 요청 갯수를 초과했습니다.",
         )
-    data = response.content.decode("utf8").replace("'", '"')
+    data = response.content.decode("utf8")
     github_user = json.loads(data)
     return github_user["avatar_url"]
 
