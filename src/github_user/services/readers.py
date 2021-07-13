@@ -18,7 +18,6 @@ def retrieve_github_user(username: str, uow: AbstractUnitOfWork) -> GithubUserRe
 def list_github_user(
     input_dto: GithubUserListRequestDto, uow: AbstractUnitOfWork
 ) -> GithubUserListResponseDto:
-    input_dto.filters["is_approved"] = True
     input_dto.filters["is_public"] = True
 
     with uow:

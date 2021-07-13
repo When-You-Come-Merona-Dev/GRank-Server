@@ -39,6 +39,7 @@ security = HTTPBearer()
 )
 def list_github_user(
     request: Request,
+    is_approved: Optional[bool] = True,
     page: Optional[int] = None,
     per_page: Optional[int] = None,
     order_by: Optional[str] = "commit_count",
@@ -49,7 +50,7 @@ def list_github_user(
     order_by = parser.parse_order_by_rule_parameter()
 
     input_dto = GithubUserListRequestDto(
-        filters={}, page=page, per_page=per_page, order_by=order_by
+        filters={"is_approved": is_approved}, page=page, per_page=per_page, order_by=order_by
     )
 
     return readers.list_github_user(input_dto=input_dto, uow=SQLAlchemyUnitOfWork())
