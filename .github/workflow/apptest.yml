@@ -5,7 +5,7 @@ on:
     branches: [ develop ]
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,4 +23,4 @@ jobs:
       
       - name: run pytest
         run: |
-          pytest 
+          pytest PYTHONPATH=.
