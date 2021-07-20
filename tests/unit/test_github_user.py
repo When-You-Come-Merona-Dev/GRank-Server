@@ -1,9 +1,11 @@
 from src.github_user.domain.entities.group import Group
 from src.github_user.domain.entities.github_user import GithubUser
+from src.utils.hasher import hash_password
 
 
 def make_github_user_and_group(github_user_name: str = "test_user", group_name: str = "test_group"):
-    github_user = GithubUser(github_user_name)
+    hashed_password = hash_password("22222222")
+    github_user = GithubUser(github_id="11111111", password=hashed_password,username=github_user_name, avatar_url="https://example-url.com")
     group = Group(name=group_name, category="major")
 
     return github_user, group
