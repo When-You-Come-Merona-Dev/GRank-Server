@@ -2,8 +2,7 @@ name: apptest
 
 on:
   pull_request:
-    branches:
-      - '*'
+    branches: [ develop ]
 
 jobs:
   deploy:
