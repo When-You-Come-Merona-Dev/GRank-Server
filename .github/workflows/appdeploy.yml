@@ -13,9 +13,7 @@ jobs:
 
       - name: Add dotenv file
         run: |
-          cat << EOF > prod.env
-          ${{ secrets.DOTENV_FILE }}
-          EOF
+          echo ${{ secrets.DOTENV_FILE }}
 
       - name: Docker meta
         id: docker_meta
