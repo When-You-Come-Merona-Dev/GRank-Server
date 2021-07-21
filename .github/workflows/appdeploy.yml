@@ -12,8 +12,12 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Add dotenv file
+        env:
+          DOTENV_FILE: ${{ secrets.DOTENV_FILE }}
         run: |
-          echo ${{ secrets.DOTENV_FILE }}
+          cat << EOF > prod.env
+          "$DOTENV_FILE"
+          EOF
 
       - name: Docker meta
         id: docker_meta
