@@ -11,6 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Add dotenv file
+        run: |
+        cat << EOF > prod.env
+        {{ secrets.DOTENV_FILE }}
+        EOF
+
       - name: Docker meta
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
