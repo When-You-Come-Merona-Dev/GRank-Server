@@ -22,9 +22,7 @@ jobs:
         uses: crazy-max/ghaction-docker-meta@v1
         with:
           images: hanbin8269/grank-api-server
-          tag-semver: |
-            {{version}}
-            {{major}}.{{minor}}
+          tag-semver: ${GITHUB_REF:10}
 
       - name: Set up Python
         uses: actions/setup-python@v2
