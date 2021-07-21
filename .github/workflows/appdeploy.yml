@@ -13,7 +13,7 @@ jobs:
 
       - name: Add dotenv file
         run: |
-          cat << EOF > prod.env
+          cat << EOF > .env
           ${{ secrets.DOTENV_FILE }}
           EOF
 
