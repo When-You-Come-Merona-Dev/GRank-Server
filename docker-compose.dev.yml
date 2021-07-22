@@ -1,6 +1,18 @@
 version: "2.1"
 
 services:
+  redis:
+    image: redis:6.0.5
+    command: redis-server --port 6379
+    container_name: grank_redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    ports:
+      - "6379:6379"
+
   db:
     image: postgres
     container_name: grank_db
@@ -19,12 +31,14 @@ services:
       dockerfile: ./compose/develop/Dockerfile-dev
     volumes:
       - ./:/app/
-    command: /bin/sh -c "scripts/start.sh"
+    command: /bin/sh -c "scripts/dev-start.sh"
     container_name: grank_web
     env_file:
       - dev.env
     depends_on:
       db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     restart: always
     ports:
