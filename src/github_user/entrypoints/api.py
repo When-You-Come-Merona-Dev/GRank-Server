@@ -99,6 +99,22 @@ def delete_github_user(
 
 
 @router.patch(
+    "/github-users/renew-all",
+    response_model=List[GithubUserRenewAllResponseDto],
+    status_code=status.HTTP_200_OK,
+    tags=["github-users"],
+)
+def renew_all_github_user(
+    input_dto: GithubUserRenewAllRequestDto,
+    request: Request,
+    credentials: HTTPAuthorizationCredentials = Security(security),
+) -> List[GithubUserRenewAllResponseDto]:
+    check_permissions(request=request, permissions=[IsAdmin])
+
+    return handlers.renew_all_github_user(input_dto=input_dto, uow=SQLAlchemyUnitOfWork())
+
+
+@router.patch(
     "/github-users/{username}",
     response_model=GithubUserPartialUpdateResponseDto,
     status_code=status.HTTP_200_OK,
@@ -154,23 +170,6 @@ def renew_one_github_user(
     input_dto = GithubUserRenewOneRequestDto(username=username)
 
     return handlers.renew_one_github_user(input_dto=input_dto, uow=SQLAlchemyUnitOfWork())
-
-
-@router.patch(
-    "/github-users/renew-all",
-    response_model=List[GithubUserRenewAllResponseDto],
-    status_code=status.HTTP_200_OK,
-    tags=["github-users"],
-)
-def renew_all_github_user(
-    request: Request,
-    credentials: HTTPAuthorizationCredentials = Security(security),
-) -> List[GithubUserRenewAllResponseDto]:
-    check_permissions(request=request, permissions=[IsAdmin])
-
-    input_dto = GithubUserRenewAllRequestDto()
-
-    return handlers.renew_all_github_user(input_dto=input_dto, uow=SQLAlchemyUnitOfWork())
 
 
 @router.get("/sns/github", tags=["sns"])
