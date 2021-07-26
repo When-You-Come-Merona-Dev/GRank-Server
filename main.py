@@ -13,5 +13,6 @@ if __name__ == "__main__":
         host=CONFIG.WEB_SERVER_HOST,
         port=CONFIG.WEB_SERVER_PORT,
         reload=CONFIG.PROJ_RELOAD,
+        debug=CONFIG.DEBUG,
         workers=1,
     )
