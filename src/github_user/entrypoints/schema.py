@@ -109,16 +109,7 @@ class GithubUserRenewOneResponseDto(BaseModel):
 
 
 class GithubUserRenewAllResponseDto(BaseModel):
-    id: int
-    username: str
-    avatar_url: str
-    commit_count: int
-    grade: int
-    is_public: bool
-    is_approved: bool
-    groups: set
-    created_at: str
-    updated_at: str
+    detail: str
 
 
 class GithubUserPartialUpdateResponseDto(BaseModel):

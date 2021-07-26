@@ -59,7 +59,7 @@ def partial_update_github_user(
 
 def renew_all_github_user(
     input_dto: GithubUserRenewAllRequestDto, uow: AbstractUnitOfWork
-) -> List[GithubUserRenewAllResponseDto]:
+) -> GithubUserRenewAllResponseDto:
     filters = {"is_approved": True}
 
     with uow:
@@ -71,13 +71,10 @@ def renew_all_github_user(
 
             github_user = uow.github_users.renew_avatar_url(github_user, new_avatar_url)
             renewed_github_user = uow.github_users.renew_commit_count(github_user, new_commit_count)
-            renewed_github_users.append(
-                GithubUserRenewAllResponseDto(**renewed_github_user.to_dict())
-            )
 
         uow.commit()
 
-    return renewed_github_users
+    return GithubUserRenewAllResponseDto(detail="renew all users successfully")
 
 
 def renew_one_github_user(
