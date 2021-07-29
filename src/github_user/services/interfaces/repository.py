@@ -24,23 +24,6 @@ class AbstractRepository(abc.ABC):
     ) -> List[GithubUser]:
         pass
 
-    # ===== UPDATE =====
-    @abc.abstractmethod
-    def approve(self, github_user: GithubUser) -> GithubUser:
-        pass
-
-    @abc.abstractmethod
-    def make_public(self, github_user: GithubUser) -> GithubUser:
-        pass
-
-    @abc.abstractmethod
-    def renew_avatar_url(self, github_user: GithubUser, avatar_url: str) -> GithubUser:
-        pass
-
-    @abc.abstractmethod
-    def renew_commit_count(self, github_user: GithubUser, commit_count: int) -> GithubUser:
-        pass
-
     # ===== DELETE =====
     @abc.abstractmethod
     def delete(self, github_user: GithubUser) -> None:

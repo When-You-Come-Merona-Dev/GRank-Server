@@ -54,23 +54,6 @@ class SQLAlchemyRepository(AbstractRepository):
         )
         return github_users
 
-    # ===== UPDATE =====
-    def approve(self, github_user: GithubUser) -> GithubUser:
-        github_user.is_approved = True
-        return github_user
-
-    def make_public(self, github_user: GithubUser) -> GithubUser:
-        github_user.is_public = True
-        return github_user
-
-    def renew_avatar_url(self, github_user: GithubUser, avatar_url: str) -> GithubUser:
-        github_user.avatar_url = avatar_url
-        return github_user
-
-    def renew_commit_count(self, github_user: GithubUser, commit_count: int) -> GithubUser:
-        github_user.commit_count = commit_count
-        return github_user
-
     # ===== DELETE =====
     def delete(self, github_user: GithubUser) -> None:
         self.session.delete(github_user)
