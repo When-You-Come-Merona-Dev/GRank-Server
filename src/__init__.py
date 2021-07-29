@@ -5,12 +5,17 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from src.middlewares.authentication import AuthenticationMiddleware, JWTAuthenticationBackend
+from src.middlewares.api_logger import APILoggerMiddleware
 from src.config import CONFIG
 from src.utils.exceptions import APIException
 
 
 def init_middleware(app: FastAPI):
-    app.add_middleware(AuthenticationMiddleware, backend=JWTAuthenticationBackend())
+    app.add_middleware(middleware_class=APILoggerMiddleware)
+
+    app.add_middleware(
+        middleware_class=AuthenticationMiddleware, backend=JWTAuthenticationBackend()
+    )
 
     origins = ["*"]
     app.add_middleware(
