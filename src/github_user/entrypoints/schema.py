@@ -83,29 +83,11 @@ class GithubUserListResponseDto(BaseModel):
 
 
 class GithubUserApproveResponseDto(BaseModel):
-    id: int
-    username: str
-    avatar_url: str
-    commit_count: int
-    grade: int
-    is_public: bool
-    is_approved: bool
-    groups: set
-    created_at: str
-    updated_at: str
+    detail: str
 
 
 class GithubUserRenewOneResponseDto(BaseModel):
-    id: int
-    username: str
-    avatar_url: str
-    commit_count: int
-    grade: int
-    is_public: bool
-    is_approved: bool
-    groups: set
-    created_at: str
-    updated_at: str
+    detail: str
 
 
 class GithubUserRenewAllResponseDto(BaseModel):
