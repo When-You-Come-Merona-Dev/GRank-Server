@@ -36,11 +36,14 @@ class GithubUser:
     def change_username(self, new_username: str):
         self.username = new_username
 
+    def change_grade(self, new_username: str):
+        self.username = new_username
+
     def approve(self):
         self.is_approved = True
 
-    def make_public(self):
-        self.is_public = True
+    def change_is_public(self, new_is_public):
+        self.is_public = new_is_public
 
     def to_dict(self):
         return {
