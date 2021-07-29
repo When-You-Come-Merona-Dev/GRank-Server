@@ -4,11 +4,10 @@ import requests
 from bs4 import BeautifulSoup
 from starlette import status
 from fastapi import HTTPException
-from src.github_user.services.interfaces.external_api import AbstractExternalAPIClient
 from src.config import CONFIG
 
 
-def get_commit_count_from_username(username) -> Union[int, None]:
+def get_github_commit_count_by_username(username) -> Union[int, None]:
     response = requests.get(f"https://github.com/users/{username}/contributions")
     if response.status_code == status.HTTP_404_NOT_FOUND:
         return None
@@ -19,7 +18,7 @@ def get_commit_count_from_username(username) -> Union[int, None]:
     return int(first.get_text().split()[0].replace(",", ""))
 
 
-def get_avatar_url_from_username(username: str) -> str:
+def get_github_avatar_url_by_username(username: str) -> str:
     response = requests.get(
         f"https://api.github.com/users/{username}",
         headers={"Authorization": f"Bearer {CONFIG.GITHUB_API_TOKEN}"},
@@ -36,7 +35,7 @@ def get_avatar_url_from_username(username: str) -> str:
     return github_user["avatar_url"]
 
 
-def get_github_oauth_token(code) -> str:
+def get_github_oauth_token_by_code(code) -> str:
     response = requests.post(
         "https://github.com/login/oauth/access_token",
         data={
@@ -56,7 +55,7 @@ def get_github_oauth_token(code) -> str:
     return oauth_token
 
 
-def get_github_user_info(oauth_token) -> str:
+def get_github_user_by_oauth_token(oauth_token) -> str:
     response = requests.get(
         "https://api.github.com/user", headers={"Authorization": "token " + oauth_token}
     )
