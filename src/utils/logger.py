@@ -13,12 +13,12 @@ logger.addHandler(logging.StreamHandler())
 async def make_log(request: Request, response=None, error=None):
     time_format = "%Y-%m-%dT%H:%M:%S"
     t = time() - request.state.start
-    status_code = response.status_code
+    status_code = response.status_code if response else error.status_code
     error_log_dict = None
     user = request.user
 
     if error:
-        if request.state.inspect:
+        if hasattr(request.state, "inspect"):
             frame = request.state.inspect
             error_file = frame.f_code.co_filename
             error_func = frame.f_code.co_name
@@ -30,7 +30,7 @@ async def make_log(request: Request, response=None, error=None):
             error_func=error_func,
             location="{} line in {}".format(str(error_line), error_file),
             raised=str(error.__class__.__name__),
-            msg=str(error.ex),
+            detail=str(error),
         )
 
     user_log = dict(
@@ -49,7 +49,7 @@ async def make_log(request: Request, response=None, error=None):
         datetime_kst=(datetime.utcnow() + timedelta(hours=9)).strftime(time_format),
     )
 
-    if error and error.status_code >= 500:
+    if error:
         logger.error(json.dumps(error_log_dict))
     else:
         logger.info(json.dumps(log_dict))
