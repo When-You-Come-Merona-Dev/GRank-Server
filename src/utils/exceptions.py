@@ -4,7 +4,6 @@ from starlette import status
 class APIException(Exception):
     status_code: int
     code: str
-    msg: str
     detail: str
 
     def __init__(
