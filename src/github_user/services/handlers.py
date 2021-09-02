@@ -6,6 +6,7 @@ from src.github_user.adapters.external_api import (
     get_github_oauth_token_by_code,
     get_github_user_by_oauth_token,
 )
+from src.github_user.adapters.tasks import renew_github_users
 from src.github_user.entrypoints.schema import (
     GithubUserApproveRequestDto,
     GithubUserApproveResponseDto,
@@ -62,21 +63,9 @@ def partial_update_github_user(
 def renew_all_github_user(
     input_dto: GithubUserRenewAllRequestDto, uow: AbstractUnitOfWork
 ) -> GithubUserRenewAllResponseDto:
-    filters = {"is_approved": True}
+    task_id = renew_github_users.delay()  # Task 호출!
 
-    with uow:
-        github_users = uow.github_users.list(filters=filters)
-
-        for github_user in github_users:
-            new_avatar_url = get_github_avatar_url_by_username(github_user.username)
-            new_commit_count = get_github_commit_count_by_username(github_user.username)
-
-            github_user.renew_avatar_url(new_avatar_url)
-            github_user.renew_commit_count(new_commit_count)
-
-        uow.commit()
-
-    return GithubUserRenewAllResponseDto(detail="renew all users info successfully")
+    return GithubUserRenewAllResponseDto(detail=str(task_id))
 
 
 def renew_one_github_user(
